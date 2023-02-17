@@ -15,6 +15,10 @@ public abstract class BaseTest {
         Assertions.assertEquals(String.valueOf(expectedResult), actualResult);
     }
 
+    protected void assertEquals(String expectedResult, String actualResult) {
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
     @SneakyThrows
     @SuppressWarnings("unchecked")
     protected <T extends Exercise> T initializeExercise(Class<T> exerciseClass) {

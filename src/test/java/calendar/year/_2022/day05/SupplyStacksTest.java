@@ -2,7 +2,6 @@ package calendar.year._2022.day05;
 
 import calendar.BaseTest;
 import calendar.year.enums.Part;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -37,6 +36,6 @@ class SupplyStacksTest extends BaseTest {
         } else {
             expectedResult = testMode ? "MCD" : "FGLQJCMBD";
         }
-        Assertions.assertEquals(expectedResult, res);
+        assertEquals(expectedResult, res);
     }
 }
