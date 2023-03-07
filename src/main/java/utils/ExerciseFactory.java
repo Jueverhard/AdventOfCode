@@ -7,6 +7,7 @@ import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
+import calendar.year._2019.day02.ProgramAlarm;
 import calendar.year._2022.day01.CalorieCounting;
 import calendar.year._2022.day02.RockPaperScissors;
 import calendar.year._2022.day03.RucksackReorganization;
@@ -41,6 +42,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2019, 12, 1), TheTyrannyOfTheRocketEquation.class),
+            Map.entry(LocalDate.of(2019, 12, 2), ProgramAlarm.class),
             Map.entry(LocalDate.of(2022, 12, 1), CalorieCounting.class),
             Map.entry(LocalDate.of(2022, 12, 2), RockPaperScissors.class),
             Map.entry(LocalDate.of(2022, 12, 3), RucksackReorganization.class),
