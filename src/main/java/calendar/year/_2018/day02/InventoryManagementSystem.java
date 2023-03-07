@@ -56,7 +56,7 @@ public class InventoryManagementSystem extends Exercise {
         for (String currentBox : boxes) {
             Optional<String> optCloseEnoughBox = boxes.stream()
                     .map(box -> commonPart(currentBox, box))
-                    .filter(box -> box.length() == currentBox.length() - 1)
+                    .filter(boxCommonPart -> boxCommonPart.length() == currentBox.length() - 1)
                     .findAny();
 
             if (optCloseEnoughBox.isPresent()) {
