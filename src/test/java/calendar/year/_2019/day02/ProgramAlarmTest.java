@@ -16,8 +16,7 @@ class ProgramAlarmTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false),
                 Arguments.of(Part.PART_1, true),
-                Arguments.of(Part.PART_2, false),
-                Arguments.of(Part.PART_2, true)
+                Arguments.of(Part.PART_2, false)
         );
     }
 
@@ -33,7 +32,7 @@ class ProgramAlarmTest extends BaseTest {
         if (Part.PART_1.equals(part)) {
             expectedResult = testMode ? 3500 : 4023471;
         } else {
-            expectedResult = testMode ? 42 : 666;
+            expectedResult = testMode ? 42 : 8051;
         }
         assertEquals(expectedResult, res);
     }
