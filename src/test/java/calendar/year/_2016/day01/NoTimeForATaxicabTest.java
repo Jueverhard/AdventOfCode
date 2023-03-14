@@ -1,7 +1,7 @@
 package calendar.year._2016.day01;
 
 import calendar.BaseTest;
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
