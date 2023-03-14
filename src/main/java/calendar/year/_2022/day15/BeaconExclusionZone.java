@@ -2,7 +2,7 @@ package calendar.year._2022.day15;
 
 import utils.fileparser.Parser;
 import utils.Exercise;
-import calendar.year.enums.Part;
+import utils.enums.Part;
 
 import java.io.IOException;
 import java.time.LocalDate;

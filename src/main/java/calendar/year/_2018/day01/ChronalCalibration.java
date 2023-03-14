@@ -2,7 +2,7 @@ package calendar.year._2018.day01;
 
 import utils.fileparser.Parser;
 import utils.Exercise;
-import calendar.year.enums.Part;
+import utils.enums.Part;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

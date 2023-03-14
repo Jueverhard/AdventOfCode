@@ -1,6 +1,6 @@
 package utils;
 
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
