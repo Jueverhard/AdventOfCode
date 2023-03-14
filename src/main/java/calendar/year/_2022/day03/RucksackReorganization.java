@@ -1,7 +1,7 @@
 package calendar.year._2022.day03;
 
 import utils.Exercise;
-import calendar.year.enums.Part;
+import utils.enums.Part;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

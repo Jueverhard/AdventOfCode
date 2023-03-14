@@ -1,6 +1,6 @@
 package calendar.year._2019.day02;
 
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import utils.Exercise;
 import utils.fileparser.Parser;
 

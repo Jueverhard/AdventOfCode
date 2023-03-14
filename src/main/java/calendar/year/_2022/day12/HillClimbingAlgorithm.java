@@ -4,7 +4,7 @@ import utils.pathfinding.Graph;
 import utils.pathfinding.RouteFinder;
 import utils.pathfinding.Scorer;
 import utils.Exercise;
-import calendar.year.enums.Part;
+import utils.enums.Part;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

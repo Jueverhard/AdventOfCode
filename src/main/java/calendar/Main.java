@@ -1,6 +1,6 @@
 package calendar;
 
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import utils.ExerciseFactory;
 
 import java.io.IOException;

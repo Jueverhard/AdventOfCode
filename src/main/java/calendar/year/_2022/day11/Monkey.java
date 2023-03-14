@@ -1,6 +1,6 @@
 package calendar.year._2022.day11;
 
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import lombok.Data;
 
 import java.util.ArrayDeque;
