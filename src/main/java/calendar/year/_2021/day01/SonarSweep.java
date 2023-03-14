@@ -1,6 +1,6 @@
 package calendar.year._2021.day01;
 
-import calendar.year.enums.Part;
+import utils.enums.Part;
 import utils.Exercise;
 
 import java.io.BufferedReader;
