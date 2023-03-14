@@ -33,7 +33,7 @@ class SonarSweepTest extends BaseTest {
         if (Part.PART_1.equals(part)) {
             expectedResult = testMode ? 7 : 1709;
         } else {
-            expectedResult = testMode ? -1 : -1;
+            expectedResult = testMode ? 5 : 1761;
         }
         assertEquals(expectedResult, res);
     }
