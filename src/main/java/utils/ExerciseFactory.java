@@ -1,5 +1,6 @@
 package utils;
 
+import calendar.year._2015.day03.PerfectlySphericalHousesVacuum;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2017.day01.InverseCaptcha;
@@ -38,6 +39,7 @@ public class ExerciseFactory {
     private ExerciseFactory() {}
 
     private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.ofEntries(
+            Map.entry(LocalDate.of(2015, 12, 3), PerfectlySphericalHousesVacuum.class),
             Map.entry(LocalDate.of(2016, 12, 1), NoTimeForATaxicab.class),
             Map.entry(LocalDate.of(2016, 12, 2), BathroomSecurity.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
