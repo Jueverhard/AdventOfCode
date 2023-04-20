@@ -9,6 +9,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 class DiveTest extends BaseTest {
     private final Dive exercise = initializeExercise(Dive.class);
 
@@ -33,6 +35,7 @@ class DiveTest extends BaseTest {
         if (Part.PART_1.equals(part)) {
             expectedResult = testMode ? 150 : 2070300;
         } else {
+            fail("Not yet implemented");
             expectedResult = testMode ? 900 : -1;
         }
         assertEquals(expectedResult, res);
