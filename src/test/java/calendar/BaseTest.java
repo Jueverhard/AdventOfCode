@@ -1,9 +1,12 @@
 package calendar;
 
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.Assertions;
 import utils.Exercise;
 import utils.ExerciseFactory;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class BaseTest {
 
@@ -14,6 +17,8 @@ public abstract class BaseTest {
             assertEquals((long) expected, actual);
         } else if (expected instanceof Integer) {
             assertEquals((int) expected, actual);
+        } else if (expected instanceof NotImplementedException) {
+            fail("Not yet implemented");
         } else {
             throw new UnsupportedOperationException("Le type de la valeur attendue n'est pas prévu : " + expected.getClass());
         }
