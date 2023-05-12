@@ -14,27 +14,21 @@ class ReportRepairTest extends BaseTest {
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(Part.PART_1, false),
-                Arguments.of(Part.PART_1, true),
-                Arguments.of(Part.PART_2, false),
-                Arguments.of(Part.PART_2, true)
+                Arguments.of(Part.PART_1, false, 889779),
+                Arguments.of(Part.PART_1, true, 514579),
+                Arguments.of(Part.PART_2, false, 76110336),
+                Arguments.of(Part.PART_2, true, 241861950)
         );
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    void run_test(Part part, boolean testMode) throws IOException {
+    void run_test(Part part, boolean testMode, Object expectedResult) throws IOException {
         // ARRANGE
         // ACT
         String res = exercise.run(part, testMode);
 
         // ASSERT
-        int expectedResult;
-        if (Part.PART_1.equals(part)) {
-            expectedResult = testMode ? 514579 : 889779;
-        } else {
-            expectedResult = testMode ? 241861950 : 76110336;
-        }
         assertEquals(expectedResult, res);
     }
 
