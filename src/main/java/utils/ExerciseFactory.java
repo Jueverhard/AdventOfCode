@@ -15,6 +15,7 @@ import calendar.year._2020.day01.ReportRepair;
 import calendar.year._2020.day02.PasswordPhilosophy;
 import calendar.year._2021.day01.SonarSweep;
 import calendar.year._2021.day02.Dive;
+import calendar.year._2021.day03.BinaryDiagnostic;
 import calendar.year._2022.day01.CalorieCounting;
 import calendar.year._2022.day02.RockPaperScissors;
 import calendar.year._2022.day03.RucksackReorganization;
@@ -57,6 +58,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2020, 12, 2), PasswordPhilosophy.class),
             Map.entry(LocalDate.of(2021, 12, 1), SonarSweep.class),
             Map.entry(LocalDate.of(2021, 12, 2), Dive.class),
+            Map.entry(LocalDate.of(2021, 12, 3), BinaryDiagnostic.class),
             Map.entry(LocalDate.of(2022, 12, 1), CalorieCounting.class),
             Map.entry(LocalDate.of(2022, 12, 2), RockPaperScissors.class),
             Map.entry(LocalDate.of(2022, 12, 3), RucksackReorganization.class),
