@@ -9,36 +9,26 @@ import utils.enums.Part;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 class BinaryDiagnosticTest extends BaseTest {
     private final BinaryDiagnostic exercise = initializeExercise(BinaryDiagnostic.class);
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(Part.PART_1, false),
-                Arguments.of(Part.PART_1, true)//,
-//                Arguments.of(Part.PART_2, false),
-//                Arguments.of(Part.PART_2, true)
+                Arguments.of(Part.PART_1, false, 738234),
+                Arguments.of(Part.PART_1, true, 198),
+                Arguments.of(Part.PART_2, false, 3969126),
+                Arguments.of(Part.PART_2, true, 230)
         );
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    void run_test(Part part, boolean testMode) throws IOException {
+    void run_test(Part part, boolean testMode, Object expectedResult) throws IOException {
         // ARRANGE
         // ACT
         String res = exercise.run(part, testMode);
 
         // ASSERT
-        int expectedResult;
-        if (Part.PART_1.equals(part)) {
-            expectedResult = testMode ? 198 : 738234;
-        } else {
-            fail("Not yet implemented");
-            expectedResult = testMode ? -1 : -1;
-        }
         assertEquals(expectedResult, res);
     }
-
 }

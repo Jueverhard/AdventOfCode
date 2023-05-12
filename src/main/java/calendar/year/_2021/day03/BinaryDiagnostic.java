@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class BinaryDiagnostic extends Exercise {
     public BinaryDiagnostic(LocalDate date) {
@@ -30,9 +31,19 @@ public class BinaryDiagnostic extends Exercise {
         }
 
         int lineSize = bitsLines.get(0).length;
-        int gammaRate = extractGammaRate(bitsLines, lineSize);
-        int epsilonRate = ((int) Math.pow(2, lineSize)) - 1 - gammaRate;
-        return print(gammaRate * epsilonRate);
+
+        int result;
+        if (Part.PART_1.equals(part)) {
+            int gammaRate = extractGammaRate(bitsLines, lineSize);
+            int epsilonRate = ((int) Math.pow(2, lineSize)) - 1 - gammaRate;
+            result = gammaRate * epsilonRate;
+        } else {
+            int oxygenRating = extractOxygenRating(bitsLines, 0);
+            int co2Rating = extractCo2Rating(bitsLines, 0);
+            result = oxygenRating * co2Rating;
+        }
+
+        return print(result);
     }
 
     private int extractGammaRate(List<char[]> bitsLines, int lineSize) {
@@ -40,6 +51,30 @@ public class BinaryDiagnostic extends Exercise {
                 .mapToObj(i -> "" + extractMostCommonBit(bitsLines, i))
                 .reduce(String::concat).orElseThrow();
         return Integer.parseInt(mostCommonBits, 2);
+    }
+
+    private int extractOxygenRating(List<char[]> bitsLines, int currentIndex) {
+        if (1 == bitsLines.size()) {
+            return Integer.parseInt(reduceCharArray(bitsLines.get(0)), 2);
+        } else {
+            char mostCommonBit = extractMostCommonBit(bitsLines, currentIndex);
+            List<char[]> filteredBitLines = bitsLines.stream()
+                    .filter(bits -> mostCommonBit == bits[currentIndex])
+                    .toList();
+            return extractOxygenRating(filteredBitLines, currentIndex + 1);
+        }
+    }
+
+    private int extractCo2Rating(List<char[]> bitsLines, int currentIndex) {
+        if (1 == bitsLines.size()) {
+            return Integer.parseInt(reduceCharArray(bitsLines.get(0)), 2);
+        } else {
+            char mostCommonBit = extractMostCommonBit(bitsLines, currentIndex);
+            List<char[]> filteredBitLines = bitsLines.stream()
+                    .filter(bits -> mostCommonBit != bits[currentIndex])
+                    .toList();
+            return extractCo2Rating(filteredBitLines, currentIndex + 1);
+        }
     }
 
     private char extractMostCommonBit(List<char[]> bitsLines, int index) {
@@ -51,5 +86,12 @@ public class BinaryDiagnostic extends Exercise {
                         Collectors.counting()
                 ));
         return bitFrequencies.get('0') > bitFrequencies.get('1') ? '0' : '1';
+    }
+
+    private String reduceCharArray(char[] characters) {
+        return Stream.of(characters)
+                .map(String::valueOf)
+                .reduce(String::concat)
+                .orElseThrow();
     }
 }
