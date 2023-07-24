@@ -20,6 +20,7 @@ import calendar.year._2021.day03.BinaryDiagnostic;
 import calendar.year._2022.day01.CalorieCounting;
 import calendar.year._2022.day02.RockPaperScissors;
 import calendar.year._2022.day03.RucksackReorganization;
+import calendar.year._2022.day04.CampCleanup;
 import calendar.year._2022.day05.SupplyStacks;
 import calendar.year._2022.day06.TuningTrouble;
 import calendar.year._2022.day07.NoSpaceLeftOnDevice;
@@ -63,6 +64,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2022, 12, 1), CalorieCounting.class),
             Map.entry(LocalDate.of(2022, 12, 2), RockPaperScissors.class),
             Map.entry(LocalDate.of(2022, 12, 3), RucksackReorganization.class),
+            Map.entry(LocalDate.of(2022, 12, 4), CampCleanup.class),
             Map.entry(LocalDate.of(2022, 12, 5), SupplyStacks.class),
             Map.entry(LocalDate.of(2022, 12, 6), TuningTrouble.class),
             Map.entry(LocalDate.of(2022, 12, 7), NoSpaceLeftOnDevice.class),
