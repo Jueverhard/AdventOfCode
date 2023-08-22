@@ -29,7 +29,7 @@ public class JumpInstructions {
 
         instructions.set(currentIndex, computeNewInstructionValue(instruction));
         currentIndex += instruction;
-        return currentIndex >= 0 && currentIndex <= instructions.size();
+        return true;
     }
 
     /**
