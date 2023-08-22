@@ -18,7 +18,9 @@ public class AMazeOfTwistyTrampolines extends Exercise {
         List<Integer> input = Parser.parseLines(this.getInputPath(testMode)).stream()
                 .map(Integer::parseInt)
                 .toList();
-        JumpInstructions instructions = new JumpInstructions(input, part);
+        JumpInstructions instructions = Part.PART_1 == part ?
+                new JumpInstructions(input) :
+                new JumpInstructionsPart2(input);
 
         int nbInstructions = 0;
         while (instructions.executeInstruction()) {
