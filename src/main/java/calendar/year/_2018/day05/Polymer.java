@@ -10,11 +10,17 @@ import java.util.stream.IntStream;
 
 public record Polymer(@Getter String chain) {
 
-    private static final Set<String> POSSIBLE_REACTIONS = IntStream.range(65, 91)
+    private static final int A_CODE = 65;
+    private static final int Z_CODE = 91;
+
+    // 65 -> 91 : les codes associés à l'alphabet en majuscule (A -> Z)
+    private static final Set<String> POSSIBLE_REACTIONS = IntStream.range(A_CODE, Z_CODE)
+            // Transforme le code d'un caractère en une chaîne contenant minuscule/majuscule : `65` ==> `Set.of("aA", "Aa")`
             .mapToObj(intChar -> Set.of(
                     String.valueOf((char) intChar).toLowerCase() + (char) intChar,
                     (char) intChar + String.valueOf((char) intChar).toLowerCase()
             ))
+            // Aplatit le `Stream<Set<String>>` en `Stream<String>`
             .flatMap(Set::stream)
             .collect(Collectors.toUnmodifiableSet());
 
@@ -54,7 +60,7 @@ public record Polymer(@Getter String chain) {
      */
     public String computeShortestFullyReactedChain() {
         // Génération des 26 lettres de l'alphabet
-        return IntStream.range(65, 91)
+        return IntStream.range(A_CODE, Z_CODE)
                 .mapToObj(intChar -> (char) intChar)
                 // Génération des 26 variantes de la chaîne privées d'un caractère
                 .map(letter -> this.chain.replaceAll("(?i)" + letter, ""))
