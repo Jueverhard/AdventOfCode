@@ -12,6 +12,7 @@ import calendar.year._2017.day05.AMazeOfTwistyTrampolines;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
+import calendar.year._2018.day05.AlchemicalReduction;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
 import calendar.year._2019.day02.ProgramAlarm;
 import calendar.year._2020.day01.ReportRepair;
@@ -58,6 +59,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
+            Map.entry(LocalDate.of(2018, 12, 5), AlchemicalReduction.class),
             Map.entry(LocalDate.of(2019, 12, 1), TheTyrannyOfTheRocketEquation.class),
             Map.entry(LocalDate.of(2019, 12, 2), ProgramAlarm.class),
             Map.entry(LocalDate.of(2020, 12, 1), ReportRepair.class),
