@@ -5,9 +5,7 @@ import java.util.Optional;
 
 public class Seat {
 
-    private String specification;
-
-    private Placement placement;
+    private final String specification;
 
     public Seat(String specification) {
         this.specification = specification;
