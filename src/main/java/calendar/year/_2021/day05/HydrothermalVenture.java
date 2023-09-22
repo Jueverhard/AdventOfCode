@@ -30,15 +30,15 @@ public class HydrothermalVenture extends Exercise {
                         .map(MatchResult::group)
                         .map(Integer::parseInt)
                         .toList();
-                Position start = new Position(digits.get(0), digits.get(1), part);
-                Position end = new Position(digits.get(2), digits.get(3), part);
+                Position start = new Position(digits.get(0), digits.get(1));
+                Position end = new Position(digits.get(2), digits.get(3));
 
                 segments.add(new Segment(start, end));
             }
         }
 
         long nbOverlappingPositions = segments.stream()
-                .map(Segment::getAllPositions)
+                .map(segment -> segment.getAllPositions(part))
                 .flatMap(List::stream)
                 .collect(Collectors.groupingBy(
                         Function.identity(),
