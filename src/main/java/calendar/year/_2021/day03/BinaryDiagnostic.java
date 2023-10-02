@@ -48,7 +48,7 @@ public class BinaryDiagnostic extends Exercise {
 
     private int extractGammaRate(List<char[]> bitsLines, int lineSize) {
         String mostCommonBits = IntStream.range(0, lineSize)
-                .mapToObj(i -> "" + extractMostCommonBit(bitsLines, i))
+                .mapToObj(i -> String.valueOf(extractMostCommonBit(bitsLines, i)))
                 .reduce(String::concat).orElseThrow();
         return Integer.parseInt(mostCommonBits, 2);
     }
