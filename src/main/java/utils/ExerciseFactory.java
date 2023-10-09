@@ -5,6 +5,7 @@ import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
+import calendar.year._2016.day06.SignalsAndNoise;
 import calendar.year._2017.day01.InverseCaptcha;
 import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2017.day03.SpiralMemory;
@@ -53,6 +54,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2016, 12, 1), NoTimeForATaxicab.class),
             Map.entry(LocalDate.of(2016, 12, 2), BathroomSecurity.class),
             Map.entry(LocalDate.of(2016, 12, 4), SecurityThroughObscurity.class),
+            Map.entry(LocalDate.of(2016, 12, 6), SignalsAndNoise.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
