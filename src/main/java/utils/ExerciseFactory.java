@@ -10,6 +10,7 @@ import calendar.year._2017.day01.InverseCaptcha;
 import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2017.day03.SpiralMemory;
 import calendar.year._2017.day05.AMazeOfTwistyTrampolines;
+import calendar.year._2017.day06.MemoryReallocation;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
@@ -60,6 +61,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
             Map.entry(LocalDate.of(2017, 12, 5), AMazeOfTwistyTrampolines.class),
+            Map.entry(LocalDate.of(2017, 12, 6), MemoryReallocation.class),
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
