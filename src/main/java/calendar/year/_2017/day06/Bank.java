@@ -1,15 +1,15 @@
 package calendar.year._2017.day06;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Data
+@EqualsAndHashCode
 public class Bank {
 
-    private List<Integer> blocks;
+    private final List<Integer> blocks;
 
     public Bank(List<Integer> blocks) {
         this.blocks = new ArrayList<>(blocks);
