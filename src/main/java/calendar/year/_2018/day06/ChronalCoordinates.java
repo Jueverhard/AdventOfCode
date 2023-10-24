@@ -24,8 +24,7 @@ public class ChronalCoordinates extends Exercise {
         super(date);
     }
 
-    record Extremities(int xMax, int yMax) {
-    }
+    record Extremities(int xMax, int yMax) {}
 
     private Extremities extremities;
 
@@ -46,30 +45,7 @@ public class ChronalCoordinates extends Exercise {
             }
         }
 
-        // Compute every position closest beacon
-        Map<Position, Character> closestPointsArea = computeMinimalDistancesArea(positions);
-
-        // Identify the beacon associated to infinite areas
-        Set<Character> infiniteAreas = closestPointsArea.entrySet().stream()
-                .filter(entry -> entry.getKey().isAtExtremity(extremities))
-                .map(Entry::getValue)
-                .collect(Collectors.toSet());
-
-        // Compute the size of the largest area
-        long largestAreaSize = closestPointsArea.entrySet().stream()
-                .collect(Collectors.groupingBy(
-                        Entry::getValue,
-                        Collectors.counting()
-                )).entrySet().stream()
-                .filter(entry -> !infiniteAreas.contains(entry.getKey()))
-                .map(Entry::getValue)
-                .max(Long::compareTo)
-                .orElseThrow();
-
-        return print(largestAreaSize);
-    }
-
-    private Map<Position, Character> computeMinimalDistancesArea(List<Position> positions) {
+        // Extremities extraction
         int maxX = positions.stream()
                 .map(Position::x)
                 .max(Integer::compareTo)
@@ -80,8 +56,55 @@ public class ChronalCoordinates extends Exercise {
                 .orElseThrow();
         extremities = new Extremities(maxX, maxY);
 
-        return IntStream.range(0, maxX + 2)
-                .mapToObj(x -> IntStream.range(0, maxY + 1)
+        int result = Part.PART_1 == part ?
+                computeLargestAreaSize(positions) :
+                computeNbPositionsInRange(positions, testMode);
+
+        return print(result);
+    }
+
+    private int computeNbPositionsInRange(List<Position> positions, boolean testMode) {
+        int limit = testMode ? 32 : 10000;
+        return (int) IntStream.range(0, extremities.xMax() + 1)
+                .mapToObj(x -> IntStream.range(0, extremities.yMax() + 1)
+                        .mapToObj(y -> new Position(x, y, '.'))
+                        .collect(Collectors.toSet())
+                )
+                .flatMap(Set::stream)
+                .map(position -> positions.stream()
+                        .map(beaconPosition -> beaconPosition.computeManhattanDistance(position))
+                        .reduce(Integer::sum)
+                        .orElseThrow()
+                )
+                .filter(totalDistance -> totalDistance < limit)
+                .count();
+    }
+
+    private int computeLargestAreaSize(List<Position> positions) {
+        // Compute every position closest beacon
+        Map<Position, Character> closestPointsArea = computeMinimalDistancesArea(positions);
+
+        // Identify the beacon associated to infinite areas
+        Set<Character> infiniteAreas = closestPointsArea.entrySet().stream()
+                .filter(entry -> entry.getKey().isAtExtremity(extremities))
+                .map(Entry::getValue)
+                .collect(Collectors.toSet());
+
+        return closestPointsArea.entrySet().stream()
+                .collect(Collectors.groupingBy(
+                        Entry::getValue,
+                        Collectors.counting()
+                )).entrySet().stream()
+                .filter(entry -> !infiniteAreas.contains(entry.getKey()))
+                .map(Entry::getValue)
+                .max(Long::compareTo)
+                .orElseThrow()
+                .intValue();
+    }
+
+    private Map<Position, Character> computeMinimalDistancesArea(List<Position> positions) {
+        return IntStream.range(0, extremities.xMax() + 1)
+                .mapToObj(x -> IntStream.range(0, extremities.yMax() + 1)
                         .mapToObj(y -> new Position(x, y, '.'))
                         .collect(Collectors.toSet())
                 )

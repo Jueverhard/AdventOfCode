@@ -16,7 +16,7 @@ class ChronalCoordinatesTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 4171),
                 Arguments.of(Part.PART_1, true, 17),
-//                Arguments.of(Part.PART_2, false, 5094),
+                Arguments.of(Part.PART_2, false, 39545),
                 Arguments.of(Part.PART_2, true, 16)
         );
     }
