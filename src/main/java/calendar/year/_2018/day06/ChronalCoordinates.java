@@ -31,7 +31,6 @@ public class ChronalCoordinates extends Exercise {
     @Override
     public String run(Part part, boolean testMode) throws IOException {
         List<Position> positions = new ArrayList<>();
-        int currentCharCode = 65; // `65` is the code for `A`
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             Pattern numberPattern = Pattern.compile("\\d+");
             String input;
@@ -41,7 +40,7 @@ public class ChronalCoordinates extends Exercise {
                         .map(Integer::parseInt)
                         .toList();
 
-                positions.add(new Position(coordinates.get(0), coordinates.get(1), (char) currentCharCode++));
+                positions.add(new Position(coordinates.get(0), coordinates.get(1)));
             }
         }
 
@@ -67,7 +66,7 @@ public class ChronalCoordinates extends Exercise {
         int limit = testMode ? 32 : 10000;
         return (int) IntStream.range(0, extremities.xMax() + 1)
                 .mapToObj(x -> IntStream.range(0, extremities.yMax() + 1)
-                        .mapToObj(y -> new Position(x, y, '.'))
+                        .mapToObj(y -> new Position(x, y))
                         .collect(Collectors.toSet())
                 )
                 .flatMap(Set::stream)
@@ -105,7 +104,7 @@ public class ChronalCoordinates extends Exercise {
     private Map<Position, Character> computeMinimalDistancesArea(List<Position> positions) {
         return IntStream.range(0, extremities.xMax() + 1)
                 .mapToObj(x -> IntStream.range(0, extremities.yMax() + 1)
-                        .mapToObj(y -> new Position(x, y, '.'))
+                        .mapToObj(y -> new Position(x, y))
                         .collect(Collectors.toSet())
                 )
                 .flatMap(Set::stream)
@@ -127,6 +126,6 @@ public class ChronalCoordinates extends Exercise {
                 .toList();
 
         return ascendingPositionDistances.get(0).distance() == ascendingPositionDistances.get(1).distance() ?
-                '.' : ascendingPositionDistances.get(0).pos().c();
+                '.' : (char) ascendingPositionDistances.get(0).pos().hashCode();
     }
 }
