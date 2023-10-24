@@ -1,7 +1,7 @@
 package utils;
 
-import utils.enums.Part;
 import lombok.AllArgsConstructor;
+import utils.enums.Part;
 
 import java.io.IOException;
 import java.time.LocalDate;
