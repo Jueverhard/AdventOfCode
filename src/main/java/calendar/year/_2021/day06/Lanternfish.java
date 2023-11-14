@@ -31,7 +31,7 @@ public class Lanternfish extends Exercise {
             population = new LanternfishPopulation(timers);
         }
 
-        int nbOfDays = 80;
+        int nbOfDays = Part.PART_1 == part ? 80 : 256;
         for (int i = 0; i < nbOfDays; i++) {
             population.passADay();
         }

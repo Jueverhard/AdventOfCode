@@ -1,39 +1,44 @@
 package calendar.year._2021.day06;
 
-import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
-@AllArgsConstructor
-public class LanternfishPopulation {
+public class LanternfishPopulation  {
 
     private static final int CYCLE_TIME = 6;
     private static final int TIME_TO_MATURITY = 2;
 
-    private List<Integer> timers;
+    private final LinkedList<Long> nbFishesAboutToCreate;
+
+    public LanternfishPopulation(List<Integer> timers) {
+        this.nbFishesAboutToCreate = new LinkedList<>();
+        Map<Integer, Long> nbFishesPerTimer = timers.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        for (int i = 0; i <= CYCLE_TIME + TIME_TO_MATURITY; i++) {
+            long nbFishes = ObjectUtils.firstNonNull(nbFishesPerTimer.get(i), 0L);
+            nbFishesAboutToCreate.add(nbFishes);
+        }
+    }
 
     public void passADay() {
-        // Count the number of lantern-fishes thar are going to be created
-        long nbFishCreations = timers.stream()
-                .filter(timer -> 0 == timer)
-                .count();
+        // Fetch the number of lantern-fishes that are about to give birth
+        long nbFishesOfAge = nbFishesAboutToCreate.remove();
 
-        // Update every lantern-fishes timer
-        timers = timers.stream()
-                .map(this::computeNewTimerValue)
-                .collect(Collectors.toList());
+        // Add them to the end of the queue (cycle time + time to maturity)
+        nbFishesAboutToCreate.add(nbFishesOfAge);
 
-        // Creates the new lantern-fishes with extended initial cycle time
-        timers.addAll(LongStream.range(0, nbFishCreations).mapToObj(_i -> CYCLE_TIME + TIME_TO_MATURITY).toList());
+        // Add the parents to the right place of the queue (cycle time)
+        long newNbFishesWithFullCycle = nbFishesAboutToCreate.get(CYCLE_TIME) + nbFishesOfAge;
+        nbFishesAboutToCreate.set(CYCLE_TIME, newNbFishesWithFullCycle);
     }
 
-    private int computeNewTimerValue(int value) {
-        return 0 == value ? CYCLE_TIME : value - 1;
-    }
-
-    public int count() {
-        return timers.size();
+    public long count() {
+        return nbFishesAboutToCreate.stream()
+                .reduce(0L, Long::sum);
     }
 }

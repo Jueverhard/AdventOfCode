@@ -16,7 +16,7 @@ class LanternfishTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 353274),
                 Arguments.of(Part.PART_1, true, 5934),
-//                Arguments.of(Part.PART_2, false, 19349),
+                Arguments.of(Part.PART_2, false, 1609314870967L),
                 Arguments.of(Part.PART_2, true, 26984457539L)
         );
     }
