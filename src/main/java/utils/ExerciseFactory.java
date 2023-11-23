@@ -1,5 +1,6 @@
 package utils;
 
+import calendar.year._2015.day02.IWasToldThereWouldBeNoMath;
 import calendar.year._2015.day03.PerfectlySphericalHousesVacuum;
 import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
@@ -52,6 +53,7 @@ public class ExerciseFactory {
     private ExerciseFactory() {}
 
     private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.ofEntries(
+            Map.entry(LocalDate.of(2015, 12, 2), IWasToldThereWouldBeNoMath.class),
             Map.entry(LocalDate.of(2015, 12, 3), PerfectlySphericalHousesVacuum.class),
             Map.entry(LocalDate.of(2015, 12, 5), DoesntHeHaveInternElvesForThis.class),
             Map.entry(LocalDate.of(2015, 12, 6), ProbablyAFireHazard.class),
