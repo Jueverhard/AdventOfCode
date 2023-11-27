@@ -18,24 +18,26 @@ public class TuningTrouble extends Exercise {
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
-        int markerSize = Part.PART_1.equals(part) ? 4 : 14;
+        String message;
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
-            String line = br.readLine();
-            char[] characters = line.toCharArray();
-            Queue<Character> lastChars = new ArrayDeque<>();
-            int index;
-            for (index = 0; index < characters.length; index++) {
-                char c = characters[index];
-                while (lastChars.contains(c)) {
-                    lastChars.remove();
-                }
-                lastChars.add(c);
-                if (lastChars.size() == markerSize) {
-                    break;
-                }
-            }
-
-            return print(index + 1);
+            message = br.readLine();
         }
+
+        int markerSize = Part.PART_1.equals(part) ? 4 : 14;
+        char[] characters = message.toCharArray();
+        Queue<Character> lastChars = new ArrayDeque<>();
+        int index;
+        for (index = 0; index < characters.length; index++) {
+            char c = characters[index];
+            while (lastChars.contains(c)) {
+                lastChars.remove();
+            }
+            lastChars.add(c);
+            if (lastChars.size() == markerSize) {
+                break;
+            }
+        }
+
+        return print(index + 1);
     }
 }
