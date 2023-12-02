@@ -14,13 +14,13 @@ public class Game {
     @Getter
     private final int id;
 
+    private final Set<CubeSet> cubeSets;
+
     private static final Map<Color, Integer> LIMITS = Map.of(
             Color.RED, 12,
             Color.GREEN, 13,
             Color.BLUE, 14
     );
-
-    private final Set<CubeSet> cubeSets;
 
     public Game(String input) {
         String[] gameData = input.split(": ");
@@ -41,11 +41,17 @@ public class Game {
         return new CubeSet(cubes);
     }
 
+    /**
+     * @return True whether the game is within the cubes limits
+     */
     public boolean isLegit() {
         return cubeSets.stream()
                 .allMatch(cubeSet -> cubeSet.isLegit(LIMITS));
     }
 
+    /**
+     * @return The game power, corresponding to the product of the included cubes
+     */
     public int computePower() {
         Map<Color, Integer> test = cubeSets.stream()
                 .map(cubeSet -> cubeSet.cubes().entrySet()
