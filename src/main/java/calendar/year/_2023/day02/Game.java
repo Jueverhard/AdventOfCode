@@ -3,7 +3,7 @@ package calendar.year._2023.day02;
 import lombok.Getter;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -53,20 +53,14 @@ public class Game {
      * @return The game power, corresponding to the product of the included cubes
      */
     public int computePower() {
-        Map<Color, Integer> test = cubeSets.stream()
-                .map(cubeSet -> cubeSet.cubes().entrySet()
-                        .stream()
-                        .toList()
-                )
-                .flatMap(List::stream)
-                .collect(Collectors.groupingBy(Entry::getKey)).entrySet().stream()
-                .collect(Collectors.toMap(
+        return cubeSets.stream()
+                .map(CubeSet::cubes)
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.groupingBy(
                         Entry::getKey,
-                        entry -> entry.getValue().stream()
-                                .map(Entry::getValue)
-                                .max(Integer::compareTo)
-                                .orElseThrow()
-                ));
-        return test.values().stream().reduce(1, (a, b) -> a * b);
+                        Collectors.mapping(Entry::getValue, Collectors.toList())
+                )).values().stream()
+                .map(Collections::max)
+                .reduce(1, (a, b) -> a * b);
     }
 }
