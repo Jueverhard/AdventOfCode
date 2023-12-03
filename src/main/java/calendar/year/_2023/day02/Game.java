@@ -54,13 +54,17 @@ public class Game {
      */
     public int computePower() {
         return cubeSets.stream()
+                // Get all cubes involved
                 .map(CubeSet::cubes)
                 .flatMap(map -> map.entrySet().stream())
+                // Regroup all number of cubes per color
                 .collect(Collectors.groupingBy(
                         Entry::getKey,
                         Collectors.mapping(Entry::getValue, Collectors.toList())
                 )).values().stream()
+                // Keep only largest number of cubes
                 .map(Collections::max)
+                // Reduce those numbers of cube using product operation
                 .reduce(1, (a, b) -> a * b);
     }
 }
