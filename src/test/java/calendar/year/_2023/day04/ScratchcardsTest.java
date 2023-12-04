@@ -17,8 +17,8 @@ class ScratchcardsTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 33950),
                 Arguments.of(Part.PART_1, true, 13),
-//                Arguments.of(Part.PART_2, false, 78826761),
-                Arguments.of(Part.PART_2, true, 467835)
+                Arguments.of(Part.PART_2, false, 14814534),
+                Arguments.of(Part.PART_2, true, 30)
         );
     }
 
