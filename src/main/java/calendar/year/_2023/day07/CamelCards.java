@@ -21,15 +21,17 @@ public class CamelCards extends Exercise {
     @Override
     public String run(Part part, boolean testMode) throws IOException {
         List<Hand> hands = new ArrayList<>();
+        boolean useJokers = Part.PART_1 != part;
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
             while (null != (line = br.readLine())) {
                 String[] inputData = line.split("\\s+");
+
                 List<Kind> cards = Arrays.stream(inputData[0].split(""))
                         .map(Kind::fromValue)
                         .toList();
 
-                hands.add(new Hand(cards, Integer.parseInt(inputData[1])));
+                hands.add(new Hand(cards, Integer.parseInt(inputData[1]), useJokers));
             }
         }
 

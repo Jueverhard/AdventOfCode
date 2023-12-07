@@ -3,14 +3,25 @@ package calendar.year._2023.day07;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public record Hand(List<Kind> cards, int bid) implements Comparable<Hand> {
+public record Hand(List<Kind> cards, int bid, boolean useJokers) implements Comparable<Hand> {
     private HandType evaluateHand() {
         Map<Kind, Long> nbOccurrencesOfKind = cards.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
+        if (useJokers) {
+            // Use all jokers to increment the most frequent kind of card
+            long nbJokers = nbOccurrencesOfKind.getOrDefault(Kind.J, 0L);
+            nbOccurrencesOfKind.replace(Kind.J, 0L);
+            nbOccurrencesOfKind.entrySet().stream()
+                    .max(Entry.comparingByValue())
+                    .stream().findFirst()
+                    .ifPresent(entry -> entry.setValue(entry.getValue() + nbJokers));
+        }
         int maxOccurrences = Math.toIntExact(Collections.max(nbOccurrencesOfKind.values()));
 
         return switch (maxOccurrences) {
@@ -38,8 +49,12 @@ public record Hand(List<Kind> cards, int bid) implements Comparable<Hand> {
 
         int i = 0;
         int comparingCard = 0;
-        while (0 == comparingCard) {
-            comparingCard = cards.get(i).compareTo(o.cards().get(i));
+        BiFunction<Kind, Kind, Integer> compareFunction = useJokers ?
+                Kind::compareUsingJokers :
+                Enum::compareTo;
+
+        while (0 == comparingCard && i < cards.size()) {
+            comparingCard = compareFunction.apply(cards.get(i), o.cards().get(i));
             i++;
         }
 

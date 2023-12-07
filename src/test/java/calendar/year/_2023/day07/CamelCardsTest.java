@@ -16,9 +16,9 @@ class CamelCardsTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 248812215),
-                Arguments.of(Part.PART_1, true, 6440)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, true, 6440),
+                Arguments.of(Part.PART_2, false, 250057090),
+                Arguments.of(Part.PART_2, true, 5905)
         );
     }
 
