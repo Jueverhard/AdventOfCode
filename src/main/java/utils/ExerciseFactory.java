@@ -52,6 +52,7 @@ import calendar.year._2023.day04.Scratchcards;
 import calendar.year._2023.day05.IfYouGiveASeedAFertilizer;
 import calendar.year._2023.day06.WaitForIt;
 import calendar.year._2023.day07.CamelCards;
+import calendar.year._2023.day08.HauntedWasteland;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -113,7 +114,8 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2023, 12, 4), Scratchcards.class),
             Map.entry(LocalDate.of(2023, 12, 5), IfYouGiveASeedAFertilizer.class),
             Map.entry(LocalDate.of(2023, 12, 6), WaitForIt.class),
-            Map.entry(LocalDate.of(2023, 12, 7), CamelCards.class)
+            Map.entry(LocalDate.of(2023, 12, 7), CamelCards.class),
+            Map.entry(LocalDate.of(2023, 12, 8), HauntedWasteland.class)
     );
 
     /**
