@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ public class HauntedWasteland extends Exercise {
     }
 
     @Override
+    @SuppressWarnings("java:S2677") // Mute the warnings about unused method returns
     public String run(Part part, boolean testMode) throws IOException {
         List<Direction> directions;
         Set<ReachableNode> reachableNodes = new HashSet<>();
@@ -49,6 +51,15 @@ public class HauntedWasteland extends Exercise {
         Map<String, ReachableNode> reachableNodesPerId = reachableNodes.stream()
                 .collect(Collectors.toMap(ReachableNode::id, Function.identity()));
 
+        long nbSteps = Part.PART_1 == part ?
+                exercise1(reachableNodesPerId, directions) :
+                exercise2(reachableNodesPerId, directions);
+
+
+        return print(nbSteps);
+    }
+
+    private int exercise1(Map<String, ReachableNode> reachableNodesPerId, List<Direction> directions) {
         ReachableNode currentNode = reachableNodesPerId.get("AAA");
         Iterator<Direction> directionIterator = directions.iterator();
 
@@ -60,7 +71,71 @@ public class HauntedWasteland extends Exercise {
             currentNode = reachableNodesPerId.get(currentNode.getDestination(directionIterator.next()));
             nbSteps++;
         }
+        return nbSteps;
+    }
 
-        return print(nbSteps);
+    private long exercise2(Map<String, ReachableNode> reachableNodesPerId, List<Direction> directions) {
+        List<ReachableNode> initialNodes = reachableNodesPerId.values().stream()
+                .filter(node -> node.id().endsWith("A"))
+                .toList();
+        Iterator<Direction> directionIterator = directions.iterator();
+
+        Map<ReachableNode, Integer> nbStepsFromAToZ = initialNodes.stream()
+                .collect(Collectors.toMap(Function.identity(), _node -> 0));
+        Map<ReachableNode, Integer> nbStepsFromZToZ = initialNodes.stream()
+                .collect(Collectors.toMap(Function.identity(), _node -> 0));
+        List<ReachableNode> semiFinishedNodes = new ArrayList<>();
+        record CurrentNode(ReachableNode start, ReachableNode current) {}
+        List<CurrentNode> currentNodes = initialNodes.stream()
+                .map(node -> new CurrentNode(node, node))
+                .toList();
+        while (!currentNodes.isEmpty()) {
+            if (!directionIterator.hasNext()) {
+                directionIterator = directions.iterator();
+            }
+            Direction direction = directionIterator.next();
+
+            // Compute the new current nodes
+            currentNodes = currentNodes.parallelStream()
+                    .map(currentNode -> new CurrentNode(
+                            currentNode.start(),
+                            reachableNodesPerId.get(currentNode.current().getDestination(direction))
+                    ))
+                    .collect(Collectors.toList());
+
+            // Update the number of steps data
+            currentNodes.stream()
+                    .filter(node -> !semiFinishedNodes.contains(node.start()))
+                    .forEach(node -> nbStepsFromAToZ.merge(node.start(), 1, Integer::sum));
+            currentNodes.stream()
+                    .filter(node -> semiFinishedNodes.contains(node.start()))
+                    .forEach(node -> nbStepsFromZToZ.merge(node.start(), 1, Integer::sum));
+
+            List<CurrentNode> testToRemove = currentNodes.stream()
+                    .filter(node -> node.current().id().endsWith("Z") && semiFinishedNodes.contains(node.start()))
+                    .toList();
+            currentNodes.removeAll(testToRemove);
+            currentNodes.stream()
+                    .filter(node -> node.current().id().endsWith("Z") && !semiFinishedNodes.contains(node.start()))
+                    .forEach(node -> semiFinishedNodes.add(node.start()));
+        }
+
+        return computeLeastCommonMultiple(nbStepsFromAToZ.values().stream().map(Long::valueOf).toList());
+    }
+
+    private long computeLeastCommonMultiple(List<Long> numbers) {
+        return numbers.stream()
+                .reduce(numbers.get(0), (a, b) -> a * b / findGCD(a, b));
+    }
+
+    private long findGCD(long a, long b) {
+        while (a != b) {
+            if (a > b) {
+                a = a - b;
+            } else {
+                b = b - a;
+            }
+        }
+        return a;
     }
 }
