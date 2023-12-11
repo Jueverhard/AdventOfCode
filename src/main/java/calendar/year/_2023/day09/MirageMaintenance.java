@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -34,8 +35,12 @@ public class MirageMaintenance extends Exercise {
             }
         }
 
+        Function<Sequence, Integer> mappingFunction = Part.PART_1 == part ?
+                Sequence::computeNextValue :
+                Sequence::computePreviousValue;
+
         int result = sequences.stream()
-                .map(Sequence::computeNextValue)
+                .map(mappingFunction)
                 .reduce(0, Integer::sum);
 
         return print(result);

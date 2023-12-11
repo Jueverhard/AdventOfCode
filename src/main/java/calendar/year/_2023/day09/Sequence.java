@@ -15,6 +15,16 @@ public record Sequence(List<Integer> numbers) {
                 .sum();
     }
 
+    public int computePreviousValue() {
+        List<Sequence> subSequences = computeSubSequences();
+
+        return IntStream.range(0, subSequences.size())
+                .boxed()
+                .sorted(Comparator.reverseOrder())
+                .map(i -> subSequences.get(i).numbers().get(0))
+                .reduce(0, (accumulator, value) -> value - accumulator);
+    }
+
     private int getLastValue() {
         return numbers.get(numbers.size() - 1);
     }
