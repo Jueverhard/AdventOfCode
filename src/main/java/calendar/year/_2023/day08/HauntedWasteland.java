@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -80,15 +79,13 @@ public class HauntedWasteland extends Exercise {
                 .toList();
         Iterator<Direction> directionIterator = directions.iterator();
 
-        Map<ReachableNode, Integer> nbStepsFromAToZ = initialNodes.stream()
-                .collect(Collectors.toMap(Function.identity(), _node -> 0));
-        Map<ReachableNode, Integer> nbStepsFromZToZ = initialNodes.stream()
-                .collect(Collectors.toMap(Function.identity(), _node -> 0));
-        List<ReachableNode> semiFinishedNodes = new ArrayList<>();
+        Map<ReachableNode, Integer> nbSteps = initialNodes.stream()
+                .collect(Collectors.toMap(Function.identity(), node -> 0));
         record CurrentNode(ReachableNode start, ReachableNode current) {}
         List<CurrentNode> currentNodes = initialNodes.stream()
                 .map(node -> new CurrentNode(node, node))
                 .toList();
+
         while (!currentNodes.isEmpty()) {
             if (!directionIterator.hasNext()) {
                 directionIterator = directions.iterator();
@@ -104,23 +101,16 @@ public class HauntedWasteland extends Exercise {
                     .collect(Collectors.toList());
 
             // Update the number of steps data
-            currentNodes.stream()
-                    .filter(node -> !semiFinishedNodes.contains(node.start()))
-                    .forEach(node -> nbStepsFromAToZ.merge(node.start(), 1, Integer::sum));
-            currentNodes.stream()
-                    .filter(node -> semiFinishedNodes.contains(node.start()))
-                    .forEach(node -> nbStepsFromZToZ.merge(node.start(), 1, Integer::sum));
+            currentNodes
+                    .forEach(node -> nbSteps.merge(node.start(), 1, Integer::sum));
 
-            List<CurrentNode> testToRemove = currentNodes.stream()
-                    .filter(node -> node.current().id().endsWith("Z") && semiFinishedNodes.contains(node.start()))
+            List<CurrentNode> finishedNodes = currentNodes.stream()
+                    .filter(node -> node.current().id().endsWith("Z"))
                     .toList();
-            currentNodes.removeAll(testToRemove);
-            currentNodes.stream()
-                    .filter(node -> node.current().id().endsWith("Z") && !semiFinishedNodes.contains(node.start()))
-                    .forEach(node -> semiFinishedNodes.add(node.start()));
+            currentNodes.removeAll(finishedNodes);
         }
 
-        return computeLeastCommonMultiple(nbStepsFromAToZ.values().stream().map(Long::valueOf).toList());
+        return computeLeastCommonMultiple(nbSteps.values().stream().map(Long::valueOf).toList());
     }
 
     private long computeLeastCommonMultiple(List<Long> numbers) {
