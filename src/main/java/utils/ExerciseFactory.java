@@ -55,6 +55,7 @@ import calendar.year._2023.day07.CamelCards;
 import calendar.year._2023.day08.HauntedWasteland;
 import calendar.year._2023.day09.MirageMaintenance;
 import calendar.year._2023.day11.CosmicExpansion;
+import calendar.year._2023.day13.PointOfIncidence;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -119,7 +120,8 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2023, 12, 7), CamelCards.class),
             Map.entry(LocalDate.of(2023, 12, 8), HauntedWasteland.class),
             Map.entry(LocalDate.of(2023, 12, 9), MirageMaintenance.class),
-            Map.entry(LocalDate.of(2023, 12, 11), CosmicExpansion.class)
+            Map.entry(LocalDate.of(2023, 12, 11), CosmicExpansion.class),
+            Map.entry(LocalDate.of(2023, 12, 13), PointOfIncidence.class)
     );
 
     /**
