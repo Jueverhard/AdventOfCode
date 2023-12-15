@@ -5,29 +5,32 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.OptionalInt;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public record AshPattern(List<List<Character>> ashAndRocks) {
 
-    public OptionalInt summarizePatternVertically() {
+    public Set<Integer> summarizePatternVertically() {
         int height = ashAndRocks.get(0).size();
         return IntStream.range(1, height)
                 .filter(y -> {
                     Pair<AshPattern, AshPattern> subPatterns = splitLeftRight(y);
                     return subPatterns.getLeft().isHorizontallySymmetricTo(subPatterns.getRight());
                 })
-                .findFirst();
+                .boxed()
+                .collect(Collectors.toSet());
     }
 
-    public OptionalInt summarizePatternHorizontally() {
+    public Set<Integer> summarizePatternHorizontally() {
         int width = ashAndRocks.size();
         return IntStream.range(1, width)
                 .filter(x -> {
                     Pair<AshPattern, AshPattern> subPatterns = splitTopDown(x);
                     return subPatterns.getLeft().isVerticallySymmetricTo(subPatterns.getRight());
                 })
-                .findFirst();
+                .boxed()
+                .collect(Collectors.toSet());
     }
 
     private boolean isVerticallySymmetricTo(AshPattern pattern) {
@@ -75,5 +78,33 @@ public record AshPattern(List<List<Character>> ashAndRocks) {
                 sublistSizes.getSecondPartEnding()
         );
         return Pair.of(new AshPattern(left), new AshPattern(right));
+    }
+
+    public List<AshPattern> generateAlternativePatterns() {
+        return IntStream.range(0, ashAndRocks.get(0).size())
+                .mapToObj(x -> IntStream.range(0, ashAndRocks.size())
+                        .mapToObj(y -> alternativeAshPattern(x, y))
+                        .toList()
+                )
+                .flatMap(List::stream)
+                .toList();
+    }
+
+    private AshPattern alternativeAshPattern(int x, int y) {
+        List<List<Character>> alternativeAshAndRocks = ashAndRocks.stream()
+                .map(line -> (List<Character>) new ArrayList<>(line))
+                .collect(Collectors.toList());
+
+        List<Character> updatedLine = alternativeAshAndRocks.remove(y);
+        char oldChar = updatedLine.remove(x);
+
+        updatedLine.add(x, switchAshAndRock(oldChar));
+        alternativeAshAndRocks.add(y, updatedLine);
+
+        return new AshPattern(alternativeAshAndRocks);
+    }
+
+    private Character switchAshAndRock(char ashOrRock) {
+        return '#' == ashOrRock ? '.' : '#';
     }
 }
