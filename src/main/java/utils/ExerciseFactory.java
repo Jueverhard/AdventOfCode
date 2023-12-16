@@ -58,6 +58,7 @@ import calendar.year._2023.day10.PipeMaze;
 import calendar.year._2023.day11.CosmicExpansion;
 import calendar.year._2023.day12.HotSprings;
 import calendar.year._2023.day13.PointOfIncidence;
+import calendar.year._2023.day14.ParabolicReflectorDish;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -125,7 +126,8 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2023, 12, 10), PipeMaze.class),
             Map.entry(LocalDate.of(2023, 12, 11), CosmicExpansion.class),
             Map.entry(LocalDate.of(2023, 12, 12), HotSprings.class),
-            Map.entry(LocalDate.of(2023, 12, 13), PointOfIncidence.class)
+            Map.entry(LocalDate.of(2023, 12, 13), PointOfIncidence.class),
+            Map.entry(LocalDate.of(2023, 12, 14), ParabolicReflectorDish.class)
     );
 
     /**
