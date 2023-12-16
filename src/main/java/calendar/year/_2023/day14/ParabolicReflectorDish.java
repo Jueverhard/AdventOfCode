@@ -21,6 +21,7 @@ public class ParabolicReflectorDish extends Exercise {
         List<Position> rocks = new ArrayList<>();
         List<Position> stops = new ArrayList<>();
         int y = 0;
+        int width = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
             while (null != (line = br.readLine())) {
@@ -32,10 +33,24 @@ public class ParabolicReflectorDish extends Exercise {
                     }
                 }
                 y++;
+                width = line.length();
             }
         }
-        Dish dish = new Dish(rocks, stops, y);
-        dish.rollNorth();
+        Dish dish = new Dish(rocks, stops, y, width);
+
+        if (Part.PART_1 == part) {
+            dish.rollNorth();
+        } else {
+            int nbIterations = 0;
+            // TODO : trick to find to NOT do all iterations (pattern ? maths ? ...?)
+            while (nbIterations < 1000000000) {
+                dish.rollNorth();
+                dish.rollWest();
+                dish.rollSouth();
+                dish.rollEast();
+                nbIterations++;
+            }
+        }
 
         int result = dish.computeValue();
         return print(result);
