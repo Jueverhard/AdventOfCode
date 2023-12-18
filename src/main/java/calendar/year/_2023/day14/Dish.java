@@ -82,23 +82,4 @@ public class Dish {
                 .map(position -> height - position.getY())
                 .reduce(0, Integer::sum);
     }
-
-    @Deprecated // FIXME : to be deleted, used for debugging purposes
-    public String toString() {
-        String res = "";
-        for (int y = 0; y < height; y++) {
-            int finalY = y;
-            for (int x = 0; x < width; x++) {
-                int finalX = x;
-                boolean isRock = rocks.stream().anyMatch(pos -> pos.getY() == finalY && pos.getX() == finalX);
-                boolean isStop = stops.stream().anyMatch(pos -> pos.getY() == finalY && pos.getX() == finalX);
-                res += isRock ?
-                        "O" : isStop ?
-                        "#" : ".";
-            }
-            res += "\n";
-        }
-
-        return res;
-    }
 }
