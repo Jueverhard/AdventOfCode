@@ -49,20 +49,6 @@ public class Dish {
     }
 
     public void rollWest() {
-        rocks.sort(Comparator.comparingInt(Position::getX).reversed());
-        for (Position rock : rocks) {
-            int newX = Stream.of(rocks, stops)
-                    .flatMap(List::stream)
-                    .filter(position -> position.getY() == rock.getY() && position.getX() > rock.getX())
-                    .min(Comparator.comparingInt(Position::getX))
-                    .map(Position::getX)
-                    .orElse(width) - 1;
-
-            rock.setX(newX);
-        }
-    }
-
-    public void rollEast() {
         rocks.sort(Comparator.comparingInt(Position::getX));
         for (Position rock : rocks) {
             int newX = Stream.of(rocks, stops)
@@ -77,28 +63,23 @@ public class Dish {
         }
     }
 
+    public void rollEast() {
+        rocks.sort(Comparator.comparingInt(Position::getX).reversed());
+        for (Position rock : rocks) {
+            int newX = Stream.of(rocks, stops)
+                    .flatMap(List::stream)
+                    .filter(position -> position.getY() == rock.getY() && position.getX() > rock.getX())
+                    .min(Comparator.comparingInt(Position::getX))
+                    .map(Position::getX)
+                    .orElse(width) - 1;
+
+            rock.setX(newX);
+        }
+    }
+
     public int computeValue() {
         return rocks.stream()
                 .map(position -> height - position.getY())
                 .reduce(0, Integer::sum);
-    }
-
-    @Deprecated // FIXME : to be deleted, used for debugging purposes
-    public String toString() {
-        String res = "";
-        for (int y = 0; y < height; y++) {
-            int finalY = y;
-            for (int x = 0; x < width; x++) {
-                int finalX = x;
-                boolean isRock = rocks.stream().anyMatch(pos -> pos.getY() == finalY && pos.getX() == finalX);
-                boolean isStop = stops.stream().anyMatch(pos -> pos.getY() == finalY && pos.getX() == finalX);
-                res += isRock ?
-                        "O" : isStop ?
-                        "#" : ".";
-            }
-            res += "\n";
-        }
-
-        return res;
     }
 }

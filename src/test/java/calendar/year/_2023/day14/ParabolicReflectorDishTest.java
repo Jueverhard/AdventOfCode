@@ -17,7 +17,7 @@ class ParabolicReflectorDishTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 113456),
                 Arguments.of(Part.PART_1, true, 136),
-//                Arguments.of(Part.PART_2, false, 0),
+                Arguments.of(Part.PART_2, false, 118747),
                 Arguments.of(Part.PART_2, true, 64)
         );
     }
