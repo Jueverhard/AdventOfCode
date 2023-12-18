@@ -7,8 +7,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 public class LensLibrary extends Exercise {
 
@@ -26,9 +30,51 @@ public class LensLibrary extends Exercise {
                     .toList();
         }
 
-        int result = steps.stream()
-                .map(Step::computeHashValue)
-                .reduce(0, Integer::sum);
+        int result;
+        if (Part.PART_1 == part) {
+            result = steps.stream()
+                    .map(Step::computeHashValue)
+                    .reduce(0, Integer::sum);
+        } else {
+            List<Lens> part2Steps = steps.stream()
+                    .map(step -> new Lens(step.text()))
+                    .toList();
+            result = exercise2(part2Steps);
+        }
+
         return print(result);
+    }
+
+    private int exercise2(List<Lens> lenses) {
+        Map<Integer, List<Lens>> lensesPerBox = new HashMap<>();
+
+        for (Lens lens : lenses) {
+            int hash = lens.computeHashValue();
+            if ('=' == lens.getOperand()) {
+                if (lensesPerBox.containsKey(hash)) {
+                    List<Lens> existingLenses = lensesPerBox.get(hash);
+                    existingLenses.stream()
+                            .filter(existingLens -> existingLens.getLabel().equals(lens.getLabel()))
+                            .findFirst()
+                            .ifPresentOrElse(
+                                    existingLens -> existingLenses.set(existingLenses.indexOf(existingLens), lens),
+                                    () -> existingLenses.add(lens)
+                            );
+                } else {
+                    lensesPerBox.put(hash, new ArrayList<>(List.of(lens)));
+                }
+            } else if ('-' == lens.getOperand()) {
+                lensesPerBox.getOrDefault(hash, new ArrayList<>())
+                        .removeIf(existingLens -> existingLens.getLabel().equals(lens.getLabel()));
+            }
+        }
+
+        return lensesPerBox.entrySet().stream()
+                .map(entry -> IntStream.range(0, entry.getValue().size())
+                        .mapToObj(i -> (entry.getKey() + 1) * (i + 1) * entry.getValue().get(i).getPower())
+                        .toList()
+                )
+                .flatMap(List::stream)
+                .reduce(0, Integer::sum);
     }
 }
