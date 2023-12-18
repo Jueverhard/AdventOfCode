@@ -49,20 +49,6 @@ public class Dish {
     }
 
     public void rollWest() {
-        rocks.sort(Comparator.comparingInt(Position::getX).reversed());
-        for (Position rock : rocks) {
-            int newX = Stream.of(rocks, stops)
-                    .flatMap(List::stream)
-                    .filter(position -> position.getY() == rock.getY() && position.getX() > rock.getX())
-                    .min(Comparator.comparingInt(Position::getX))
-                    .map(Position::getX)
-                    .orElse(width) - 1;
-
-            rock.setX(newX);
-        }
-    }
-
-    public void rollEast() {
         rocks.sort(Comparator.comparingInt(Position::getX));
         for (Position rock : rocks) {
             int newX = Stream.of(rocks, stops)
@@ -72,6 +58,20 @@ public class Dish {
                     .map(Position::getX)
                     .map(x -> x + 1)
                     .orElse(0);
+
+            rock.setX(newX);
+        }
+    }
+
+    public void rollEast() {
+        rocks.sort(Comparator.comparingInt(Position::getX).reversed());
+        for (Position rock : rocks) {
+            int newX = Stream.of(rocks, stops)
+                    .flatMap(List::stream)
+                    .filter(position -> position.getY() == rock.getY() && position.getX() > rock.getX())
+                    .min(Comparator.comparingInt(Position::getX))
+                    .map(Position::getX)
+                    .orElse(width) - 1;
 
             rock.setX(newX);
         }
