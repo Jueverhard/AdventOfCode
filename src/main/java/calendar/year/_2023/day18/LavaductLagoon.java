@@ -8,22 +8,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class LavaductLagoon extends Exercise {
 
     public LavaductLagoon(LocalDate date) {
         super(date);
     }
-
-    record Extremities(int xMin, int yMin, int xMax, int yMax) {}
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
@@ -35,53 +29,51 @@ public class LavaductLagoon extends Exercise {
             while (null != (line = br.readLine())) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
-                    Direction direction = Direction.valueOf(matcher.group("direction"));
-                    int volume = Integer.parseInt(matcher.group("volume"));
                     String hexa = matcher.group("hexa");
+                    Direction direction;
+                    int volume;
+                    if (Part.PART_1 == part) {
+                        direction = Direction.valueOf(matcher.group("direction"));
+                        volume = Integer.parseInt(matcher.group("volume"));
+                    } else {
+                        direction = switch (hexa.charAt(5)) {
+                            case '0' -> Direction.R;
+                            case '1' -> Direction.D;
+                            case '2' -> Direction.L;
+                            case '3' -> Direction.U;
+                            default -> throw new IllegalArgumentException();
+                        };
+                        volume = Integer.parseInt(hexa.substring(0, 5), 16);
+                    }
                     digInstructions.add(new DigInstruction(direction, volume, hexa));
                 }
             }
         }
 
         // Use the instructions to dug up the field
-        Set<Position> dugUpPositions = new HashSet<>();
+        List<InstructionPosition> instructionPositions = new ArrayList<>();
         Position currentPosition = new Position(0, 0);
+        Extremities extremities = new Extremities(0L, 0L, 0L, 0L);
+        long nbDugUpPositions = 0L;
         for (DigInstruction digInstruction : digInstructions) {
-            List<Position> newlyDugUpPositions = currentPosition.computeIntermediatePositions(
+            instructionPositions.add(new InstructionPosition(digInstruction, currentPosition));
+            currentPosition = currentPosition.computeDestination(
                     digInstruction.direction(),
                     digInstruction.volume()
             );
-            dugUpPositions.addAll(newlyDugUpPositions);
-            currentPosition = newlyDugUpPositions.get(newlyDugUpPositions.size() - 1);
+            nbDugUpPositions += digInstruction.volume();
+            extremities.updateSelf(currentPosition);
         }
 
-        // Dug up the lagoon defined by the instructions
-        Extremities extremities = new Extremities(
-                dugUpPositions.stream()
-                        .min(Comparator.comparingInt(Position::x))
-                        .orElseThrow().x(),
-                dugUpPositions.stream()
-                        .min(Comparator.comparingInt(Position::y))
-                        .orElseThrow().y(),
-                dugUpPositions.stream()
-                        .max(Comparator.comparingInt(Position::x))
-                        .orElseThrow().x(),
-                dugUpPositions.stream()
-                        .max(Comparator.comparingInt(Position::y))
-                        .orElseThrow().y()
-        );
-
-        Set<Position> newPositionsToDugUp = IntStream.range(extremities.xMin(), extremities.xMax())
-                .mapToObj(x -> IntStream.range(extremities.yMin(), extremities.yMax())
+        long nbPositionsToDugUp = LongStream.range(extremities.getXMin(), extremities.getXMax()).parallel()
+                .map(x -> LongStream.range(extremities.getYMin(), extremities.getYMax()).parallel()
                         .mapToObj(y -> new Position(x, y))
-                        .filter(newPosition -> newPosition.isBeetweenBoundaries(dugUpPositions))
-                        .collect(Collectors.toSet())
+                        .filter(position -> position.isToBeDugUp(instructionPositions))
+                        .count()
                 )
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        dugUpPositions.addAll(newPositionsToDugUp);
+                .sum();
 
-        int result = dugUpPositions.size();
+        long result = nbDugUpPositions + nbPositionsToDugUp;
         return print(result);
     }
 }

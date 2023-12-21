@@ -1,135 +1,79 @@
 package calendar.year._2023.day18;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
-public record Position(int x, int y) {
+public record Position(long x, long y) {
 
-    public List<Position> computeIntermediatePositions(Direction direction, int range) {
+    public Position computeDestination(Direction direction, int range) {
         return switch (direction) {
-            case U -> IntStream.rangeClosed(y, y + range)
-                    .mapToObj(yPos -> new Position(x, yPos))
-                    .toList();
-            case R -> IntStream.rangeClosed(x, x + range)
-                    .mapToObj(xPos -> new Position(xPos, y))
-                    .toList();
-            case D -> IntStream.rangeClosed(y - range, y)
-                    .mapToObj(yPos -> new Position(x, yPos))
-                    .sorted(Comparator.comparingInt(Position::y).reversed())
-                    .toList();
-            case L -> IntStream.rangeClosed(x - range, x)
-                    .mapToObj(xPos -> new Position(xPos, y))
-                    .sorted(Comparator.comparingInt(Position::x).reversed())
-                    .toList();
+            case U -> new Position(x, y + range);
+            case R -> new Position(x + range, y);
+            case D -> new Position(x, y - range);
+            case L -> new Position(x - range, y);
         };
     }
 
-    public boolean isBeetweenBoundaries(Set<Position> boundaries) {
-        List<Position> northPositions = boundaries.stream()
-                .filter(boundary -> boundary.x == x && boundary.y > y)
-                .sorted(Comparator.comparingInt(Position::y))
-                .toList();
-        if (northPositions.isEmpty()) {
-            return false;
-        }
+    public boolean isToBeDugUp(List<InstructionPosition> instructionPositions) {
+        int northCuts = (int) IntStream.range(0, instructionPositions.size())
+                // Keeps the instructions above the current position
+                .filter(i -> instructionPositions.get(i).position().y() > y)
+                // Keeps the instructions crossing the vertical axis
+                .filter(i -> doesCrossNorth(
+                        instructionPositions.get(i),
+                        0 != i ? instructionPositions.get(i - 1) : instructionPositions.get(instructionPositions.size() - 1),
+                        instructionPositions.size() - 1 != i ? instructionPositions.get(i + 1) : instructionPositions.get(0)
+                ))
+                .count();
+        int westCuts = (int) IntStream.range(0, instructionPositions.size())
+                // Keeps the instructions on the left of the current position
+                .filter(i -> instructionPositions.get(i).position().x() < x)
+                // Keeps the instructions crossing the horizontal axis
+                .filter(i -> doesCrossWest(
+                        instructionPositions.get(i),
+                        0 != i ? instructionPositions.get(i - 1) : instructionPositions.get(instructionPositions.size() - 1),
+                        instructionPositions.size() - 1 != i ? instructionPositions.get(i + 1) : instructionPositions.get(0)
+                ))
+                .count();
 
-        int nbNorthGroups = 0;
-        final List<Position> currentGroup = new ArrayList<>();
-        if (1 == northPositions.size()) {
-            nbNorthGroups++;
-        } else {
-            currentGroup.add(northPositions.get(0));
-            for (int i = 1; i < northPositions.size(); i++) {
-                Position northPos = northPositions.get(i);
-                Position previousPosition = northPositions.get(i - 1);
-                if (extractNorthGroup(northPos, previousPosition, currentGroup, boundaries, false)) {
-                    nbNorthGroups++;
-                    currentGroup.clear();
-                }
-                currentGroup.add(northPos);
-            }
-        }
-        if (extractNorthGroup(new Position(0, 0), new Position(0, 0), currentGroup, boundaries, true)) {
-            nbNorthGroups++;
-            currentGroup.clear();
-        }
-
-        List<Position> westPositions = boundaries.stream()
-                .filter(boundary -> boundary.y == y && boundary.x < x)
-                .sorted(Comparator.comparingInt(Position::x))
-                .toList();
-        if (westPositions.isEmpty()) {
-            return false;
-        }
-
-        int nbWestGroups = 0;
-        List<Position> westCurrentGroup = new ArrayList<>();
-        if (1 == westPositions.size()) {
-            nbWestGroups++;
-        } else {
-            westCurrentGroup.add(westPositions.get(0));
-            for (int i = 1; i < westPositions.size(); i++) {
-                Position westPos = westPositions.get(i);
-                Position previousPosition = westPositions.get(i - 1);
-                if (extractWestGroup(westPos, previousPosition, westCurrentGroup, boundaries, false)) {
-                    nbWestGroups++;
-                    westCurrentGroup.clear();
-                }
-                westCurrentGroup.add(westPos);
-            }
-        }
-        if (extractWestGroup(new Position(0, 0), new Position(0, 0), westCurrentGroup, boundaries, true)) {
-            nbWestGroups++;
-            westCurrentGroup.clear();
-        }
-
-        return 1 == nbNorthGroups % 2 && 1 == nbWestGroups % 2;
+        return 1 == northCuts % 2 && 1 == westCuts % 2 && instructionPositions.stream()
+                .noneMatch(instruction ->
+                        (instruction.position().x() == x && Direction.U == instruction.instruction().direction() && instruction.position().y() <= y && instruction.position().y() + instruction.instruction().volume() >= y)
+                                || (instruction.position().x() == x && Direction.D == instruction.instruction().direction() && instruction.position().y() >= y && instruction.position().y() - instruction.instruction().volume() <= y)
+                                || (instruction.position().y() == y && Direction.R == instruction.instruction().direction() && instruction.position().x() <= x && instruction.position().x() + instruction.instruction().volume() >= x)
+                                || (instruction.position().y() == y && Direction.L == instruction.instruction().direction() && instruction.position().x() >= x && instruction.position().x() - instruction.instruction().volume() <= x)
+                );
     }
 
-    private boolean extractWestGroup(
-            Position westPos,
-            Position previousPosition,
-            List<Position> currentGroup,
-            Set<Position> boundaries,
-            boolean isLast
-    ) {
-        if (Math.abs(westPos.x() - previousPosition.x()) != 1 || isLast) {
-            boolean isToBeConsidered = boundaries.stream()
-                    .filter(boundary -> currentGroup.stream().anyMatch(pos -> pos.x() == boundary.x()))
-                    .filter(boundary -> boundary.y() - 1 == y || boundary.y() + 1 == y)
-                    .map(Position::y)
-                    .distinct()
-                    .count() > 1;
-            if (isToBeConsidered) {
-                return true;
-            }
-            currentGroup.clear();
-        }
-        return false;
+    private boolean doesCrossNorth(InstructionPosition instructionPosition, InstructionPosition previous, InstructionPosition next) {
+        boolean crossFromRight = instructionPosition.position().x() > x
+                && Direction.L == instructionPosition.instruction().direction()
+                && instructionPosition.position().x() - instructionPosition.instruction().volume() < x;
+        boolean crossFromLeft = instructionPosition.position().x() < x
+                && Direction.R == instructionPosition.instruction().direction()
+                && instructionPosition.position().x() + instructionPosition.instruction().volume() > x;
+        boolean joinCrossingInstructions = instructionPosition.position().x == x
+                && instructionPosition.instruction().direction().isVertical()
+                && previous.instruction().direction().isHorizontal()
+                && next.instruction().direction().isHorizontal()
+                && previous.instruction().direction() == next.instruction().direction();
+
+        return crossFromRight || crossFromLeft || joinCrossingInstructions;
     }
 
-    private boolean extractNorthGroup(
-            Position northPos,
-            Position previousPosition,
-            final List<Position> currentGroup,
-            Set<Position> boundaries,
-            boolean isLast
-    ) {
-        if (Math.abs(northPos.y() - previousPosition.y()) != 1 || isLast) {
-            boolean isToBeConsidered = boundaries.stream()
-                    .filter(boundary -> currentGroup.stream().anyMatch(pos -> pos.y() == boundary.y()))
-                    .filter(boundary -> boundary.x() - 1 == x || boundary.x() + 1 == x)
-                    .map(Position::x)
-                    .distinct()
-                    .count() > 1;
-            if (isToBeConsidered) {
-                return true;
-            }
-            currentGroup.clear();
-        }
-        return false;
+    private boolean doesCrossWest(InstructionPosition instructionPosition, InstructionPosition previous, InstructionPosition next) {
+        boolean crossFromTop = instructionPosition.position().y() > y
+                && Direction.D == instructionPosition.instruction().direction()
+                && instructionPosition.position().y() - instructionPosition.instruction().volume() < y;;
+        boolean crossFromBottom = instructionPosition.position().y() < y
+                && Direction.U == instructionPosition.instruction().direction()
+                && instructionPosition.position().y() + instructionPosition.instruction().volume() > y;
+        boolean joinCrossingInstructions = instructionPosition.position().y == y
+                && instructionPosition.instruction().direction().isHorizontal()
+                && previous.instruction().direction().isVertical()
+                && next.instruction().direction().isVertical()
+                && previous.instruction().direction() == next.instruction().direction();
+
+        return crossFromTop || crossFromBottom || joinCrossingInstructions;
     }
 }

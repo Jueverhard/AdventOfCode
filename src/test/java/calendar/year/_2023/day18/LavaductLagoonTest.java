@@ -17,8 +17,8 @@ class LavaductLagoonTest extends BaseTest {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 36807),
                 Arguments.of(Part.PART_1, true, 62)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+//                Arguments.of(Part.PART_2, false, 0)//,
+//                Arguments.of(Part.PART_2, true, 952408144115L)
         );
     }
 
