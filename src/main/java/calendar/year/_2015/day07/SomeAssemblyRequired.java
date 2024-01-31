@@ -23,9 +23,9 @@ public class SomeAssemblyRequired extends Exercise {
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
-        Set<Wire> wires = new HashSet<>();
+        Set<Wire> initialWires = new HashSet<>();
 
-        // Initialisation des données à partir de l'input
+        // Data extraction
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
             Pattern pattern = Pattern.compile("\\w+");
@@ -44,20 +44,45 @@ public class SomeAssemblyRequired extends Exercise {
                     default:
                         throw new IllegalArgumentException();
                 };
-                wires.add(wire);
+                initialWires.add(wire);
             }
         }
 
+        Set<Wire> wires = initialWires.stream()
+                .map(Wire::copyOf)
+                .collect(Collectors.toSet());
         Map<String, Wire> wirePerTarget = wires.stream()
                 .collect(Collectors.toMap(Wire::getTarget, Function.identity()));
 
-        // Extraction du résultat
-        int result = wires.stream()
+        // Final wire value computation
+        int finalWireValue = wires.stream()
                 .filter(wire -> "a".equals(wire.getTarget()))
                 .findFirst()
                 .orElseThrow()
                 .compute(wirePerTarget);
 
-        return print(result);
+        if (Part.PART_2 == part) {
+            // First run value injection into the circuit
+            Set<Wire> updatedWires = initialWires.stream()
+                    .map(Wire::copyOf)
+                    .collect(Collectors.toSet());
+            Wire wireToReplace = updatedWires.stream()
+                    .filter(wire -> "b".equals(wire.getTarget()))
+                    .findFirst()
+                    .orElseThrow();
+            updatedWires.remove(wireToReplace);
+            updatedWires.add(new Wire(LogicGate.VALUE, wireToReplace.getTarget(), String.valueOf(finalWireValue), null));
+
+            // Second calculation with updated data
+            Map<String, Wire> updatedWirePerTarget = updatedWires.stream()
+                    .collect(Collectors.toMap(Wire::getTarget, Function.identity()));
+            finalWireValue = updatedWires.stream()
+                    .filter(wire -> "a".equals(wire.getTarget()))
+                    .findFirst()
+                    .orElseThrow()
+                    .compute(updatedWirePerTarget);
+        }
+
+        return print(finalWireValue);
     }
 }

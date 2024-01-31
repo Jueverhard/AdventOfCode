@@ -23,16 +23,14 @@ public class Wire {
     public Wire(LogicGate logicGate, String target, String firstWire, String secondWire) {
         this.logicGate = logicGate;
         this.target = target;
+        this.firstWire = firstWire;
+        this.secondWire = secondWire;
         try {
             this.firstValue = Integer.parseInt(firstWire);
-        } catch (NumberFormatException e) {
-            this.firstWire = firstWire;
-        }
+        } catch (NumberFormatException ignored) {}
         try {
             this.secondValue = Integer.parseInt(secondWire);
-        } catch (NumberFormatException e) {
-            this.secondWire = secondWire;
-        }
+        } catch (NumberFormatException ignored) {}
     }
 
     public int compute(Map<String, Wire> wirePerTarget) {
@@ -45,5 +43,9 @@ public class Wire {
         }
 
         return this.logicGate.compute(firstValue, secondValue);
+    }
+
+    public Wire copyOf() {
+        return new Wire(logicGate, target, firstWire, secondWire);
     }
 }

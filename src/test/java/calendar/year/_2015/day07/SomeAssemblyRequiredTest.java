@@ -14,8 +14,8 @@ class SomeAssemblyRequiredTest extends BaseTest {
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(Part.PART_1, false, 46065)//,
-//                Arguments.of(Part.PART_2, false, 0)
+                Arguments.of(Part.PART_1, false, 46065),
+                Arguments.of(Part.PART_2, false, 14134)
         );
     }
 
