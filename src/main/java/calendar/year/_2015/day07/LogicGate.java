@@ -3,12 +3,12 @@ package calendar.year._2015.day07;
 import java.util.function.BinaryOperator;
 
 public enum LogicGate {
-    VALUE((a, b) -> a),
+    VALUE((a, ignored) -> a),
     AND((a, b) -> a & b),
     OR((a, b) -> a | b),
     LSHIFT((a, b) -> a << b),
     RSHIFT((a, b) -> a >> b),
-    NOT((a, b) -> ~a);
+    NOT((a, ignored) -> ~a);
 
     private final BinaryOperator<Integer> logicOperation;
 

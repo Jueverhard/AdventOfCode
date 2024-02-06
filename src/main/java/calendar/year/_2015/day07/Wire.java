@@ -12,9 +12,9 @@ public class Wire {
     @Getter
     private final String target;
 
-    private String firstWire;
+    private final String firstWire;
 
-    private String secondWire;
+    private final String secondWire;
 
     private Integer firstValue;
 
