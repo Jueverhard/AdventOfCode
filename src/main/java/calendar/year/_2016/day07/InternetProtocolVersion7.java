@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -33,14 +34,17 @@ public class InternetProtocolVersion7 extends Exercise {
                         .collect(Collectors.toSet());
                 Set<String> otherWords = globalPattern.matcher(line).results()
                         .map(MatchResult::group)
-                        .filter(word -> !bracketWords.contains(word))
                         .collect(Collectors.toSet());
+                otherWords.removeAll(bracketWords);
                 ipAddresses.add(new IpAddress(otherWords, bracketWords));
             }
         }
 
+        Predicate<IpAddress> predicate = Part.PART_1 == part ?
+                IpAddress::supportsTLS :
+                IpAddress::supportsSSL;
         long result = ipAddresses.stream()
-                .filter(IpAddress::isValid)
+                .filter(predicate)
                 .count();
         return print(result);
     }
