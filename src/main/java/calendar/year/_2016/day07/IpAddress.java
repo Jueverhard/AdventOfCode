@@ -22,17 +22,12 @@ public record IpAddress(Set<String> outsideBrackets, Set<String> insideBrackets)
     }
 
     public boolean supportsSSL() {
-        Set<String> abaSequences = outsideBrackets.stream()
+        return outsideBrackets.stream()
                 .map(this::extractAbaSequences)
                 .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        Set<String> babSequences = insideBrackets.stream()
-                .map(this::extractAbaSequences)
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-
-        return abaSequences.stream()
-                .anyMatch(abaSequence -> babSequences.stream()
+                .anyMatch(abaSequence -> insideBrackets.stream()
+                        .map(this::extractAbaSequences)
+                        .flatMap(Set::stream)
                         .anyMatch(babSequence -> abaSequence.charAt(0) == babSequence.charAt(1) && abaSequence.charAt(1) == babSequence.charAt(0))
                 );
     }

@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class InternetProtocolVersion7 extends Exercise {
 
@@ -26,17 +27,21 @@ public class InternetProtocolVersion7 extends Exercise {
         List<IpAddress> ipAddresses = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
-            Pattern globalPattern = Pattern.compile("\\w+");
-            Pattern bracketPattern = Pattern.compile("\\[\\w+\\]");
+            Pattern pattern = Pattern.compile("\\w+");
             while (null != (line = br.readLine())) {
-                Set<String> bracketWords = bracketPattern.matcher(line).results()
+                List<String> words = pattern.matcher(line).results()
                         .map(MatchResult::group)
+                        .toList();
+
+                Set<String> outsideWords = IntStream.range(0, words.size())
+                        .filter(i -> i % 2 == 0)
+                        .mapToObj(words::get)
                         .collect(Collectors.toSet());
-                Set<String> otherWords = globalPattern.matcher(line).results()
-                        .map(MatchResult::group)
+                Set<String> insideWords = IntStream.range(0, words.size())
+                        .filter(i -> i % 2 == 1)
+                        .mapToObj(words::get)
                         .collect(Collectors.toSet());
-                otherWords.removeAll(bracketWords);
-                ipAddresses.add(new IpAddress(otherWords, bracketWords));
+                ipAddresses.add(new IpAddress(outsideWords, insideWords));
             }
         }
 
