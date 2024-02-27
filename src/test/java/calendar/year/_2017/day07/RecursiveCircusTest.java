@@ -15,7 +15,9 @@ class RecursiveCircusTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, "ahnofa"),
-                Arguments.of(Part.PART_1, true, "tknk")
+                Arguments.of(Part.PART_1, true, "tknk"),
+                Arguments.of(Part.PART_2, false, 802),
+                Arguments.of(Part.PART_2, true, 60)
         );
     }
 
