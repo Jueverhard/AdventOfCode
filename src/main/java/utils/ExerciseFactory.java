@@ -5,6 +5,7 @@ import calendar.year._2015.day03.PerfectlySphericalHousesVacuum;
 import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
 import calendar.year._2015.day07.SomeAssemblyRequired;
+import calendar.year._2015.day08.Matchsticks;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
@@ -80,6 +81,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2015, 12, 5), DoesntHeHaveInternElvesForThis.class),
             Map.entry(LocalDate.of(2015, 12, 6), ProbablyAFireHazard.class),
             Map.entry(LocalDate.of(2015, 12, 7), SomeAssemblyRequired.class),
+            Map.entry(LocalDate.of(2015, 12, 8), Matchsticks.class),
             Map.entry(LocalDate.of(2016, 12, 1), NoTimeForATaxicab.class),
             Map.entry(LocalDate.of(2016, 12, 2), BathroomSecurity.class),
             Map.entry(LocalDate.of(2016, 12, 4), SecurityThroughObscurity.class),
