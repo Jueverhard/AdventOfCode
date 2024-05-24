@@ -73,8 +73,7 @@ public class ExerciseFactory {
 
     private ExerciseFactory() {}
 
-    // TODO JEV : séparer par années pour résoudre la smell
-    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.ofEntries(
+    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.<LocalDate, Class<? extends Exercise>>ofEntries(
             Map.entry(LocalDate.of(2015, 12, 2), IWasToldThereWouldBeNoMath.class),
             Map.entry(LocalDate.of(2015, 12, 3), PerfectlySphericalHousesVacuum.class),
             Map.entry(LocalDate.of(2015, 12, 5), DoesntHeHaveInternElvesForThis.class),
