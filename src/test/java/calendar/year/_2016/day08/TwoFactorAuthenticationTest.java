@@ -15,9 +15,23 @@ class TwoFactorAuthenticationTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 106),
-                Arguments.of(Part.PART_1, true, 6)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, true, 6),
+                Arguments.of(Part.PART_2, false, """
+                        .##..####.#....####.#.....##..#...#####..##...###
+                        #..#.#....#....#....#....#..#.#...##....#..#.#...
+                        #....###..#....###..#....#..#..#.#.###..#....#...
+                        #....#....#....#....#....#..#...#..#....#.....##.
+                        #..#.#....#....#....#....#..#...#..#....#..#....#
+                        .##..#....####.####.####..##....#..#.....##..###.
+                        """
+                ),
+                Arguments.of(Part.PART_2, true, """
+                        ....#.#
+                        #.#....
+                        .#.....
+                        .#.....
+                        """
+                )
         );
     }
 

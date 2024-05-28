@@ -23,7 +23,7 @@ public class TwoFactorAuthentication extends Exercise {
     public String run(Part part, boolean testMode) throws IOException {
         Pattern rectanglePattern = Pattern.compile("rect (?<x>\\d+)x(?<y>\\d+)");
         Pattern rotationPattern = Pattern.compile("rotate (?<direction>\\w+) \\w=(?<index>\\d+) by (?<range>\\d+)");
-        Set<Position> littenPixels = new HashSet<>();
+        Set<Position> litPixels = new HashSet<>();
         Position.setScreenLimits(50, 6);
 
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
@@ -39,7 +39,7 @@ public class TwoFactorAuthentication extends Exercise {
                                     .collect(Collectors.toSet())
                             )
                             .flatMap(Set::stream)
-                            .forEach(littenPixels::add);
+                            .forEach(litPixels::add);
                     continue;
                 }
 
@@ -48,14 +48,41 @@ public class TwoFactorAuthentication extends Exercise {
                     Direction direction = Direction.valueOf(rotationMatcher.group("direction").toUpperCase());
                     int index = Integer.parseInt(rotationMatcher.group("index"));
                     int range = Integer.parseInt(rotationMatcher.group("range"));
-                    littenPixels.stream()
+                    litPixels.stream()
                             .filter(pos -> index == direction.getPositionGetter().apply(pos))
                             .forEach(pos -> pos.rotate(direction, range));
                 }
             }
         }
 
-        int res = littenPixels.size();
-        return print(res);
+        return Part.PART_1 == part ? print(litPixels.size()) : screenDisplay(litPixels);
+    }
+
+    /**
+     * @param litPositions Every lit positions
+     * @return the resulting screen, accounting lit and dark positions
+     */
+    private String screenDisplay(Set<Position> litPositions) {
+        int maxX = litPositions.stream()
+                .map(Position::getX)
+                .max(Integer::compareTo)
+                .orElseThrow();
+        int maxY = litPositions.stream()
+                .map(Position::getY)
+                .max(Integer::compareTo)
+                .orElseThrow();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int y = 0; y <= maxY; y++) {
+            for (int x = 0; x <= maxX; x++) {
+                int finalX = x;
+                int finalY = y;
+                boolean littenPos = litPositions.stream()
+                        .anyMatch(pos -> finalX == pos.getX() && finalY == pos.getY());
+                stringBuilder.append(littenPos ? '#' : '.');
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }
