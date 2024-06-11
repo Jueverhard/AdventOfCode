@@ -15,9 +15,9 @@ class IHeardYouLikeRegistersTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 6061),
-                Arguments.of(Part.PART_1, true, 1)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, true, 1),
+                Arguments.of(Part.PART_2, false, 6696),
+                Arguments.of(Part.PART_2, true, 10)
         );
     }
 

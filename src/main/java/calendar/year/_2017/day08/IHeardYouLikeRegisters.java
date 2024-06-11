@@ -21,6 +21,7 @@ public class IHeardYouLikeRegisters extends Exercise {
     @Override
     public String run(Part part, boolean testMode) throws IOException {
         Map<String, Integer> valuePerRegister = new HashMap<>();
+        int highestValue = Integer.MIN_VALUE;
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
             Pattern pattern = Pattern.compile("(?<register>\\w+) (?<operation>\\w+) (?<increment>-?\\d+) if (?<targetRegister>\\w+) (?<operator>.+) (?<comparedValue>-?\\d+)");
@@ -37,23 +38,22 @@ public class IHeardYouLikeRegisters extends Exercise {
                 LogicOperator operator = LogicOperator.fromValue(matcher.group("operator"));
                 int comparedValue = Integer.parseInt(matcher.group("comparedValue"));
 
-                if (!valuePerRegister.containsKey(register)) {
-                    valuePerRegister.put(register, 0);
-                }
-                if (!valuePerRegister.containsKey(targetRegister)) {
-                    valuePerRegister.put(targetRegister, 0);
-                }
+                valuePerRegister.putIfAbsent(register, 0);
+                valuePerRegister.putIfAbsent(targetRegister, 0);
 
                 if (operator.compute(valuePerRegister.get(targetRegister), comparedValue)) {
                     int newValue = isToInc ?
                             valuePerRegister.get(register) + increment :
                             valuePerRegister.get(register) - increment;
+                    highestValue = Math.max(highestValue, newValue);
                     valuePerRegister.replace(register, newValue);
                 }
             }
         }
 
-        int result = Collections.max(valuePerRegister.values());
+        int result = Part.PART_1 == part ?
+                Collections.max(valuePerRegister.values()) :
+                highestValue;
         return print(result);
     }
 }
