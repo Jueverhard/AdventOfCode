@@ -18,4 +18,8 @@ public record Layer(List<Integer> digits) {
                         .filter(digit -> 2 == digit)
                         .count();
     }
+
+    public int findDigit(int index) {
+        return digits.get(index);
+    }
 }

@@ -19,7 +19,7 @@ public class SpaceImageFormat extends Exercise {
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
-        final int wide = testMode ? 3 : 25;
+        final int wide = testMode ? 2 : 25;
         final int tall = testMode ? 2 : 6;
         final int layerSize = wide * tall;
         List<Layer> layers;
@@ -35,11 +35,30 @@ public class SpaceImageFormat extends Exercise {
                     .toList();
         }
 
-        // Working list initialization
-        Layer layer = layers.stream()
+        // Exercise answering
+        if (Part.PART_1 == part) {
+            return print(exercise1(layers));
+        } else {
+            return print(exercise2(layers, layerSize));
+        }
+    }
+
+    public long exercise1(List<Layer> layers) {
+        return layers.stream()
                 .min(Comparator.comparing(Layer::countZeros))
-                .orElseThrow();
-        long result = layer.computeValue();
-        return print(result);
+                .orElseThrow()
+                .computeValue();
+    }
+
+    public String exercise2(List<Layer> layers, int layerSize) {
+        return IntStream.range(0, layerSize)
+                .map(i -> layers.stream()
+                        .map(layer -> layer.findDigit(i))
+                        .filter(digit -> 2 != digit)
+                        .findFirst()
+                        .orElse(2)
+                )
+                .mapToObj(String::valueOf)
+                .reduce("", String::concat);
     }
 }
