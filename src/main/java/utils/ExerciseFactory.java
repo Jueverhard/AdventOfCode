@@ -23,6 +23,7 @@ import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
 import calendar.year._2018.day05.AlchemicalReduction;
 import calendar.year._2018.day06.ChronalCoordinates;
+import calendar.year._2018.day07.TheSumOfItsParts;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
 import calendar.year._2019.day02.ProgramAlarm;
 import calendar.year._2019.day08.SpaceImageFormat;
@@ -101,6 +102,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
             Map.entry(LocalDate.of(2018, 12, 5), AlchemicalReduction.class),
             Map.entry(LocalDate.of(2018, 12, 6), ChronalCoordinates.class),
+            Map.entry(LocalDate.of(2018, 12, 7), TheSumOfItsParts.class),
             Map.entry(LocalDate.of(2019, 12, 1), TheTyrannyOfTheRocketEquation.class),
             Map.entry(LocalDate.of(2019, 12, 2), ProgramAlarm.class),
             Map.entry(LocalDate.of(2019, 12, 8), SpaceImageFormat.class),
