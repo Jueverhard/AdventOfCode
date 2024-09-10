@@ -74,7 +74,7 @@ public class RecursiveCircus extends Exercise {
             result = programNames.iterator().next();
         } else {
             Program unbalancedProgram = programs.stream()
-                    // Compute all subprogram weights
+                    // Keep only the programs having distinct subprogram weights
                     .filter(program -> 1 < program.subPrograms().stream()
                             .map(programsPerName::get)
                             .map(subProgram -> subProgram.computeWeight(connexions))
