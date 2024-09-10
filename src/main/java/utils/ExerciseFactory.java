@@ -5,24 +5,29 @@ import calendar.year._2015.day03.PerfectlySphericalHousesVacuum;
 import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
 import calendar.year._2015.day07.SomeAssemblyRequired;
+import calendar.year._2015.day08.Matchsticks;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
 import calendar.year._2016.day06.SignalsAndNoise;
 import calendar.year._2016.day07.InternetProtocolVersion7;
+import calendar.year._2016.day08.TwoFactorAuthentication;
 import calendar.year._2017.day01.InverseCaptcha;
 import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2017.day03.SpiralMemory;
 import calendar.year._2017.day05.AMazeOfTwistyTrampolines;
 import calendar.year._2017.day06.MemoryReallocation;
 import calendar.year._2017.day07.RecursiveCircus;
+import calendar.year._2017.day08.IHeardYouLikeRegisters;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
 import calendar.year._2018.day05.AlchemicalReduction;
 import calendar.year._2018.day06.ChronalCoordinates;
+import calendar.year._2018.day07.TheSumOfItsParts;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
 import calendar.year._2019.day02.ProgramAlarm;
+import calendar.year._2019.day08.SpaceImageFormat;
 import calendar.year._2020.day01.ReportRepair;
 import calendar.year._2020.day02.PasswordPhilosophy;
 import calendar.year._2020.day05.BinaryBoarding;
@@ -74,31 +79,35 @@ public class ExerciseFactory {
 
     private ExerciseFactory() {}
 
-    // TODO JEV : séparer par années pour résoudre la smell
-    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.ofEntries(
+    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.<LocalDate, Class<? extends Exercise>>ofEntries(
             Map.entry(LocalDate.of(2015, 12, 2), IWasToldThereWouldBeNoMath.class),
             Map.entry(LocalDate.of(2015, 12, 3), PerfectlySphericalHousesVacuum.class),
             Map.entry(LocalDate.of(2015, 12, 5), DoesntHeHaveInternElvesForThis.class),
             Map.entry(LocalDate.of(2015, 12, 6), ProbablyAFireHazard.class),
             Map.entry(LocalDate.of(2015, 12, 7), SomeAssemblyRequired.class),
+            Map.entry(LocalDate.of(2015, 12, 8), Matchsticks.class),
             Map.entry(LocalDate.of(2016, 12, 1), NoTimeForATaxicab.class),
             Map.entry(LocalDate.of(2016, 12, 2), BathroomSecurity.class),
             Map.entry(LocalDate.of(2016, 12, 4), SecurityThroughObscurity.class),
             Map.entry(LocalDate.of(2016, 12, 6), SignalsAndNoise.class),
             Map.entry(LocalDate.of(2016, 12, 7), InternetProtocolVersion7.class),
+            Map.entry(LocalDate.of(2016, 12, 8), TwoFactorAuthentication.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
             Map.entry(LocalDate.of(2017, 12, 5), AMazeOfTwistyTrampolines.class),
             Map.entry(LocalDate.of(2017, 12, 6), MemoryReallocation.class),
             Map.entry(LocalDate.of(2017, 12, 7), RecursiveCircus.class),
+            Map.entry(LocalDate.of(2017, 12, 8), IHeardYouLikeRegisters.class),
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
             Map.entry(LocalDate.of(2018, 12, 5), AlchemicalReduction.class),
             Map.entry(LocalDate.of(2018, 12, 6), ChronalCoordinates.class),
+            Map.entry(LocalDate.of(2018, 12, 7), TheSumOfItsParts.class),
             Map.entry(LocalDate.of(2019, 12, 1), TheTyrannyOfTheRocketEquation.class),
             Map.entry(LocalDate.of(2019, 12, 2), ProgramAlarm.class),
+            Map.entry(LocalDate.of(2019, 12, 8), SpaceImageFormat.class),
             Map.entry(LocalDate.of(2020, 12, 1), ReportRepair.class),
             Map.entry(LocalDate.of(2020, 12, 2), PasswordPhilosophy.class),
             Map.entry(LocalDate.of(2020, 12, 5), BinaryBoarding.class),
