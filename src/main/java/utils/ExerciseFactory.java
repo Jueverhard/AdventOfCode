@@ -11,6 +11,7 @@ import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
 import calendar.year._2016.day06.SignalsAndNoise;
 import calendar.year._2016.day07.InternetProtocolVersion7;
+import calendar.year._2016.day08.TwoFactorAuthentication;
 import calendar.year._2017.day01.InverseCaptcha;
 import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2017.day03.SpiralMemory;
@@ -75,8 +76,7 @@ public class ExerciseFactory {
 
     private ExerciseFactory() {}
 
-    // TODO JEV : séparer par années pour résoudre la smell
-    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.ofEntries(
+    private static final Map<LocalDate, Class<? extends Exercise>> exercises = Map.<LocalDate, Class<? extends Exercise>>ofEntries(
             Map.entry(LocalDate.of(2015, 12, 2), IWasToldThereWouldBeNoMath.class),
             Map.entry(LocalDate.of(2015, 12, 3), PerfectlySphericalHousesVacuum.class),
             Map.entry(LocalDate.of(2015, 12, 5), DoesntHeHaveInternElvesForThis.class),
@@ -88,6 +88,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2016, 12, 4), SecurityThroughObscurity.class),
             Map.entry(LocalDate.of(2016, 12, 6), SignalsAndNoise.class),
             Map.entry(LocalDate.of(2016, 12, 7), InternetProtocolVersion7.class),
+            Map.entry(LocalDate.of(2016, 12, 8), TwoFactorAuthentication.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
