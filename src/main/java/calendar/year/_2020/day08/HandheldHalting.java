@@ -6,6 +6,7 @@ import utils.fileparser.Parser;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,25 +18,91 @@ public class HandheldHalting extends Exercise {
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
-        List<String> operations = Parser.parseLines(getInputPath(testMode));
+        List<Instruction> instructions = Parser.parseLines(getInputPath(testMode)).stream()
+                .map(instruction -> instruction.split("\\s"))
+                .map(instructionData -> new Instruction(
+                        Operation.valueOf(instructionData[0].toUpperCase()),
+                        Integer.parseInt(instructionData[1])
+                ))
+                .toList();
+
+        int res = Part.PART_1 == part ?
+                executeInstructions(instructions).accumulatorValue() :
+                findFixedInstructionsAccumulator(instructions);
+        return print(res);
+    }
+
+    public record Result(int accumulatorValue, boolean isFinite) {}
+
+    /**
+     * @param instructions Instructions to execute
+     * @return The final accumulator value, and whether the set completes
+     */
+    private Result executeInstructions(List<Instruction> instructions) {
         int accumulator = 0;
         int currentIndex = 0;
         Set<Integer> visitedIndexes = new HashSet<>();
 
-        while (visitedIndexes.add(currentIndex)) {
-            String[] instructionData = operations.get(currentIndex).split("\\s");
-            Operation operation = Operation.valueOf(instructionData[0].toUpperCase());
+        while (visitedIndexes.add(currentIndex) && currentIndex < instructions.size()) {
+            Instruction instruction = instructions.get(currentIndex);
 
-            switch (operation) {
+            switch (instruction.operation()) {
                 case ACC -> {
-                    accumulator += Integer.parseInt(instructionData[1]);
+                    accumulator += instruction.value();
                     currentIndex++;
                 }
-                case JMP -> currentIndex += Integer.parseInt(instructionData[1]);
+                case JMP -> currentIndex += instruction.value();
                 case NOP -> currentIndex++;
             }
         }
 
-        return print(accumulator);
+        return new Result(accumulator, currentIndex >= instructions.size());
+    }
+
+    /**
+     * Generate the fixed instructions set and compute its final accumulator value
+     *
+     * @param instructions Instructions to execute
+     * @return The resulting accumulator value
+     */
+    private int findFixedInstructionsAccumulator(List<Instruction> instructions) {
+        return instructions.stream()
+                // Evicts the `acc` operations
+                .filter(instruction -> Operation.ACC != instruction.operation())
+                // Generate an alternative instructions list (NOP <-> JMP)
+                .map(instruction -> generateAlternativeList(instructions, instruction))
+                // Compute the new list result
+                .map(this::executeInstructions)
+                // Keep only the alternative list that does not end in an infinite loop
+                .filter(Result::isFinite)
+                .findAny().orElseThrow()
+                .accumulatorValue();
+    }
+
+    /**
+     * Generates an alternative version of the given instructions list, having the given instruction replaced with one
+     * with the operation swapped (JMP <-> NOP)
+     *
+     * @param originalInstructions The original instructions list
+     * @param instructionToReplace The instruction to replace
+     * @return The mutated instructions list
+     */
+    private List<Instruction> generateAlternativeList(
+            final List<Instruction> originalInstructions,
+            Instruction instructionToReplace
+    ) {
+        List<Instruction> alternativeInstructions = new ArrayList<>(originalInstructions);
+        Operation newOperation = Operation.JMP == instructionToReplace.operation() ?
+                Operation.NOP :
+                Operation.JMP;
+        Instruction newInstruction = new Instruction(
+                newOperation,
+                instructionToReplace.value()
+        );
+        alternativeInstructions.set(
+                originalInstructions.indexOf(instructionToReplace),
+                newInstruction
+        );
+        return alternativeInstructions;
     }
 }

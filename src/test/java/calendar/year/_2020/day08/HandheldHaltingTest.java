@@ -15,7 +15,9 @@ class HandheldHaltingTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 1766),
-                Arguments.of(Part.PART_1, true, 5)
+                Arguments.of(Part.PART_1, true, 5),
+                Arguments.of(Part.PART_2, false, 1639),
+                Arguments.of(Part.PART_2, true, 8)
         );
     }
 
