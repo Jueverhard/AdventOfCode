@@ -31,6 +31,7 @@ import calendar.year._2019.day08.SpaceImageFormat;
 import calendar.year._2020.day01.ReportRepair;
 import calendar.year._2020.day02.PasswordPhilosophy;
 import calendar.year._2020.day05.BinaryBoarding;
+import calendar.year._2020.day08.HandheldHalting;
 import calendar.year._2021.day01.SonarSweep;
 import calendar.year._2021.day02.Dive;
 import calendar.year._2021.day03.BinaryDiagnostic;
@@ -111,6 +112,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2020, 12, 1), ReportRepair.class),
             Map.entry(LocalDate.of(2020, 12, 2), PasswordPhilosophy.class),
             Map.entry(LocalDate.of(2020, 12, 5), BinaryBoarding.class),
+            Map.entry(LocalDate.of(2020, 12, 8), HandheldHalting.class),
             Map.entry(LocalDate.of(2021, 12, 1), SonarSweep.class),
             Map.entry(LocalDate.of(2021, 12, 2), Dive.class),
             Map.entry(LocalDate.of(2021, 12, 3), BinaryDiagnostic.class),
