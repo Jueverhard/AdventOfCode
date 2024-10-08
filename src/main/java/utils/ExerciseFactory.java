@@ -37,6 +37,7 @@ import calendar.year._2021.day02.Dive;
 import calendar.year._2021.day03.BinaryDiagnostic;
 import calendar.year._2021.day05.HydrothermalVenture;
 import calendar.year._2021.day06.Lanternfish;
+import calendar.year._2021.day08.SevenSegmentSearch;
 import calendar.year._2022.day01.CalorieCounting;
 import calendar.year._2022.day02.RockPaperScissors;
 import calendar.year._2022.day03.RucksackReorganization;
@@ -118,6 +119,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2021, 12, 3), BinaryDiagnostic.class),
             Map.entry(LocalDate.of(2021, 12, 5), HydrothermalVenture.class),
             Map.entry(LocalDate.of(2021, 12, 6), Lanternfish.class),
+            Map.entry(LocalDate.of(2021, 12, 8), SevenSegmentSearch.class),
             Map.entry(LocalDate.of(2022, 12, 1), CalorieCounting.class),
             Map.entry(LocalDate.of(2022, 12, 2), RockPaperScissors.class),
             Map.entry(LocalDate.of(2022, 12, 3), RucksackReorganization.class),
