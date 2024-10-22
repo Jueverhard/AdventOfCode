@@ -30,26 +30,48 @@ public class SevenSegmentSearch extends Exercise {
             Pattern wordPattern = Pattern.compile("\\w+");
             while (null != (line = br.readLine())) {
                 String[] inputParts = line.split(" \\| ");
-                List<String> patterns = wordPattern.matcher(inputParts[0]).results()
+                List<Signal> patterns = wordPattern.matcher(inputParts[0]).results()
                         .map(MatchResult::group)
+                        .map(segments -> new Signal(segments.chars()
+                                .mapToObj(c -> (char) c)
+                                .collect(Collectors.toSet())
+                        ))
                         .toList();
-                List<String> outputs = wordPattern.matcher(inputParts[1]).results()
+                List<Signal> outputs = wordPattern.matcher(inputParts[1]).results()
                         .map(MatchResult::group)
+                        .map(segments -> new Signal(segments.chars()
+                                .mapToObj(c -> (char) c)
+                                .collect(Collectors.toSet())
+                        ))
                         .toList();
 
                 displays.add(new Display(patterns, outputs));
             }
         }
 
+        int res = Part.PART_1 == part ?
+                countIdentifiableDigits(displays) :
+                computeDisplaysSum(displays);
+
+        return print(res);
+    }
+
+    private int countIdentifiableDigits(List<Display> displays) {
         // Extract the number of segments that uniquely identify a digit
         Set<Integer> uniqueDigitSegmentsSize = UNIQUE_SEGMENT_SIZED_DIGIT.stream()
-                .map(digit -> digit.getSegments().size())
+                .map(Digit::getNbSegments)
                 .collect(Collectors.toSet());
 
-        long res = displays.stream()
+        return (int) displays.stream()
                 .flatMap(display -> display.outputs().stream())
                 .filter(signal -> uniqueDigitSegmentsSize.contains(signal.length()))
                 .count();
-        return print(res);
+    }
+
+    private int computeDisplaysSum(List<Display> displays) {
+        return displays.stream()
+                .map(Display::computeValue)
+                .reduce(Integer::sum)
+                .orElseThrow();
     }
 }
