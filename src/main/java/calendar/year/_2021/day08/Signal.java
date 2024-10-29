@@ -10,6 +10,13 @@ public record Signal(Set<Character> segments) {
         return segments.size();
     }
 
+    /**
+     * Transforms the current signal using the provided mapping rules.
+     *
+     * @param mappingRules A map where the keys are the scrambled characters of the segments
+     *                     and the values are the original ones to be restored.
+     * @return A new Signal instance with segments mapped based on the provided mapping rules.
+     */
     public Signal transform(Map<Character, Character> mappingRules) {
         Set<Character> mappedCharacters = segments.stream()
                 .map(mappingRules::get)

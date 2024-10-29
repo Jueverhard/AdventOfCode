@@ -11,15 +11,25 @@ import static calendar.year._2021.day08.Digit.UNIQUE_SEGMENT_SIZED_DIGIT;
 
 public record Display(List<Signal> patterns, List<Signal> outputs) {
 
-    private static final Set<Character> EXISTING_SEGMENTS = Set.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
-
+    /**
+     * Computes the value of the current display based on scrambled segment mappings.
+     * The method first decodes the scrambled signals into their original segments and then
+     * converts the decoded signals into digits. Finally, these digits are combined to form
+     * the resulting integer value.
+     *
+     * @return The integer value represented by the decoded segments.
+     */
     public int computeValue() {
+        // Identifies the scrambling
         Map<Character, Character> originalSegmentsPerMixedUp = computeMixedUpSegmentsMappingToOriginal();
 
         return outputs.stream()
+                // Decodes the scrambled signals into their original segments
                 .map(output -> output.transform(originalSegmentsPerMixedUp))
+                // Identifies the corresponding digit
                 .map(output -> Digit.fromSegments(output.segments()))
                 .map(Digit::ordinal)
+                // Builds the 4-digit number
                 .reduce(0, (acc, val) -> 10 * acc + val);
     }
 
@@ -32,92 +42,49 @@ public record Display(List<Signal> patterns, List<Signal> outputs) {
     private Map<Character, Character> computeMixedUpSegmentsMappingToOriginal() {
         Map<Character, Character> mapping = new HashMap<>();
 
-        // ab = 1
-        // ==> `a` correspond à `c` ou `f`
-        // ==> `b` correspond à `c` ou `f`
+        // Extracts the 1-segments
         Signal one = findSignalOfUniqueSegmentSizedDigit(Digit.ONE);
         Set<Character> possibleRightSegments = one.segments();
 
-        // dab = 7
-        // ==> `d` correspond à `a`  (d ==> a)
-        //  dddd
-        // ?    ?
-        // ?    ?
-        //  ????
-        // ?    ?
-        // ?    ?
-        //  ????
+        // Extracts the 7-segments
         Signal seven = findSignalOfUniqueSegmentSizedDigit(Digit.SEVEN);
+
+        // The only segment from 1 that is missing from 7 is the top one
         char topSegment = filteredSet(seven.segments(), one.segments()).iterator().next();
         mapping.put(topSegment, 'a');
 
-        // eafb = 4
-        // ==> `e` correspond à `b` ou `d`
-        // ==> `f` correspond à `b` ou `d`
+        // Extracts the 4-segments
         Signal four = findSignalOfUniqueSegmentSizedDigit(Digit.FOUR);
         Set<Character> possibleTopLeftAndMiddleSegments = filteredSet(four.segments(), one.segments());
 
-        // 2, 3, 5 ont tous un unique segment commun avec 4 : celui du centre
-        // cdfbe gcdfa fbcad ont tous un unique segment commun avec eafb : f
-        // ==> `f` correspond à `d`  (d ==> a, f ==> d)
-        // ==> `e` correspond à `b`  (d ==> a, f ==> d, e ==> b)
-        //  dddd
-        // e    ?
-        // e    ?
-        //  ffff
-        // ?    ?
-        // ?    ?
-        //  ????
+        // Extracts 2/3/5-segments
         Set<Signal> twoThreeFiveSignals = patterns.stream()
                 .filter(pattern -> 5 == pattern.length())
                 .collect(Collectors.toSet());
+
+        // Finds the only common segment (the middle one) between 2/3/5 and 4
         char middleSegment = findCommonSegment(twoThreeFiveSignals, four.segments());
         mapping.put(middleSegment, 'd');
         mapping.put(findStillUnknownSegment(possibleTopLeftAndMiddleSegments, middleSegment), 'b');
 
-        // 0, 6, 9 ont tous un unique segment commun avec 1 : celui en bas à droite
-        // cefabd cdfgeb cagedb ont tous un unique segment commun avec ab : b
-        // ==> `b` correspond à `f`  (d ==> a, f ==> d, e ==> b, b ==> f)
-        // ==> `a` correspond à `c`  (d ==> a, f ==> d, e ==> b, b ==> f, a ==> c)
-        //  dddd
-        // e    a
-        // e    a
-        //  ffff
-        // ?    b
-        // ?    b
-        //  ????
+        // Extracts 0/6/9-segments
         Set<Signal> zeroSixNineSignals = patterns.stream()
                 .filter(pattern -> 6 == pattern.length())
                 .collect(Collectors.toSet());
+
+        // Finds the only common segment (the bottom-right one) between 0/6/9 and 1
         char bottomRightSegment = findCommonSegment(zeroSixNineSignals, one.segments());
         mapping.put(bottomRightSegment, 'f');
         mapping.put(findStillUnknownSegment(possibleRightSegments, bottomRightSegment), 'c');
 
-        // Dans les inconnues restantes (eg),
-        // 0, 6, 9 n'ont qu'un segment commun avec eg : celui en bas
-        // cefabd cdfgeb cagedb n'ont qu'un segment commun avec eg : e
-        // ==> `e` correspond à `g`
-        //  dddd
-        // e    a
-        // e    a
-        //  ffff
-        // ?    b
-        // ?    b
-        //  cccc
-        Set<Character> stillUnknownSegment = EXISTING_SEGMENTS.stream()
+        // Extracts the remaining unknown segments
+        Set<Character> stillUnknownSegment = Digit.EIGHT.getSegments().stream()
                 .filter(segment -> !mapping.containsKey(segment))
                 .collect(Collectors.toSet());
+
+        // Finds the only common segment (the bottom one) between 0/6/9 and the remaining unknown ones (bottom and bottom-left)
         char bottomSegment = findCommonSegment(zeroSixNineSignals, stillUnknownSegment);
         mapping.put(bottomSegment, 'g');
-
-        // ==> `g` correspond à `c`
-        //  dddd
-        // e    a
-        // e    a
-        //  ffff
-        // g    b
-        // g    b
-        //  cccc
         mapping.put(findStillUnknownSegment(stillUnknownSegment, bottomSegment), 'e');
 
         return mapping;
