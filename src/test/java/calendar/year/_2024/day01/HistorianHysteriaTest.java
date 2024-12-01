@@ -15,10 +15,10 @@ class HistorianHysteriaTest extends BaseTest {
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(Part.PART_1, false, 0),
-                Arguments.of(Part.PART_1, true, 11)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, false, 2580760),
+                Arguments.of(Part.PART_1, true, 11),
+                Arguments.of(Part.PART_2, false, 25358365),
+                Arguments.of(Part.PART_2, true, 31)
         );
     }
 
