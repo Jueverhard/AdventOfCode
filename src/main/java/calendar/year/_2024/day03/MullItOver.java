@@ -20,27 +20,61 @@ public class MullItOver extends Exercise {
 
     @Override
     public String run(Part part, boolean testMode) throws IOException {
-        List<Multiplication> multiplications = new ArrayList<>();
+        List<Operation> operations = new ArrayList<>();
 
         // Data initialization
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
-            Pattern multiplierPattern = Pattern.compile("mul\\(\\d+,\\d+\\)");
+            Pattern operationPattern = Pattern.compile("mul\\(\\d+,\\d+\\)|do\\(\\)|don't\\(\\)");
             while (null != (line = br.readLine())) {
-                List<Multiplication> inputMultiplications = multiplierPattern.matcher(line).results()
+                List<Operation> lineOperations = operationPattern.matcher(line).results()
                         .map(MatchResult::group)
-                        .map(Multiplication::new)
+                        .map(input -> input.startsWith("mul") ? new Multiplication(input) : new Activation(input))
                         .toList();
 
-                multiplications.addAll(inputMultiplications);
+                operations.addAll(lineOperations);
             }
         }
 
-        int result = multiplications.stream()
+        int result = Part.PART_1 == part ?
+                computeAllMultiplicationsSum(operations) :
+                computeAllEnabledMultiplicationsSum(operations);
+
+        return print(result);
+    }
+
+    /**
+     * Computes the sum of all given multiplications.
+     *
+     * @param operations The operations to consider.
+     * @return The sum of all computed results from multiplication operations.
+     */
+    private int computeAllMultiplicationsSum(List<Operation> operations) {
+        return operations.stream()
+                .filter(Multiplication.class::isInstance)
+                .map(Multiplication.class::cast)
                 .map(Multiplication::compute)
                 .reduce(Integer::sum)
                 .orElseThrow();
+    }
 
-        return print(result);
+    /**
+     * Computes the sum of all given enabled multiplications.
+     *
+     * @param operations The list of operations to consider, which includes (de-)activations and multiplications.
+     * @return The sum of the results of enabled multiplication operations.
+     */
+    private int computeAllEnabledMultiplicationsSum(List<Operation> operations) {
+        List<Operation> enabledOperations = new ArrayList<>();
+        boolean enabled = true;
+        for (Operation operation : operations) {
+            if (enabled && operation instanceof Multiplication multiplication) {
+                enabledOperations.add(multiplication);
+            } else if (operation instanceof Activation activation) {
+                enabled = activation.isDoesActivate();
+            }
+        }
+
+        return computeAllMultiplicationsSum(enabledOperations);
     }
 }

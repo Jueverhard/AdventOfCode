@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-public class Multiplication {
+public final class Multiplication extends Operation {
 
     private final int a;
 
@@ -13,6 +13,7 @@ public class Multiplication {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
 
     public Multiplication(String input) {
+        super();
         List<Integer> inputParts = NUMBER_PATTERN.matcher(input).results()
                 .map(MatchResult::group)
                 .map(Integer::parseInt)

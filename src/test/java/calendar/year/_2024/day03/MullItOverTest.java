@@ -16,9 +16,9 @@ class MullItOverTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 157621318),
-                Arguments.of(Part.PART_1, true, 161)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, true, 161),
+                Arguments.of(Part.PART_2, false, 79845780),
+                Arguments.of(Part.PART_2, true, 48)
         );
     }
 
