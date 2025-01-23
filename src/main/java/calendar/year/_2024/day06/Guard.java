@@ -2,15 +2,13 @@ package calendar.year._2024.day06;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.Set;
 
 @AllArgsConstructor
-@ToString
+@Getter
 public class Guard {
 
-    @Getter
     private Position position;
 
     private Direction orientation;
@@ -26,5 +24,9 @@ public class Guard {
         }
         position = nextPosition;
         orientation = nextOrientation;
+    }
+
+    public Guard copyOf() {
+        return new Guard(position.copyOf(), orientation);
     }
 }

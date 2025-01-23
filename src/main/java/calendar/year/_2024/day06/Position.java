@@ -2,11 +2,9 @@ package calendar.year._2024.day06;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class Position {
 
     private int x;
