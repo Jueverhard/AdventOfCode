@@ -75,6 +75,7 @@ import calendar.year._2023.day21.StepCounter;
 import calendar.year._2024.day01.HistorianHysteria;
 import calendar.year._2024.day02.RedNosedReports;
 import calendar.year._2024.day03.MullItOver;
+import calendar.year._2024.day06.GuardGallivant;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -159,7 +160,8 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2023, 12, 21), StepCounter.class),
             Map.entry(LocalDate.of(2024, 12, 1), HistorianHysteria.class),
             Map.entry(LocalDate.of(2024, 12, 2), RedNosedReports.class),
-            Map.entry(LocalDate.of(2024, 12, 3), MullItOver.class)
+            Map.entry(LocalDate.of(2024, 12, 3), MullItOver.class),
+            Map.entry(LocalDate.of(2024, 12, 6), GuardGallivant.class)
     );
 
     /**
