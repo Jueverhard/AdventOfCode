@@ -16,9 +16,9 @@ class BridgeRepairTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 2654749936343L),
-                Arguments.of(Part.PART_1, true, 3749L)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, true, 3749L),
+                Arguments.of(Part.PART_2, false, 124060392153684L),
+                Arguments.of(Part.PART_2, true, 11387L)
         );
     }
 

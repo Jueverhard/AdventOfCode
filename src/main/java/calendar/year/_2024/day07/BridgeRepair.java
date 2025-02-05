@@ -37,7 +37,7 @@ public class BridgeRepair extends Exercise {
         }
 
         long result = operations.stream()
-                .filter(Operation::mayComputesInto)
+                .filter(operation -> operation.mayComputesInto(Part.PART_2 == part))
                 .map(Operation::result)
                 .reduce(Long::sum)
                 .orElseThrow();
