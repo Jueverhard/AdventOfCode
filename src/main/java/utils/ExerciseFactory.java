@@ -6,6 +6,7 @@ import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
 import calendar.year._2015.day07.SomeAssemblyRequired;
 import calendar.year._2015.day08.Matchsticks;
+import calendar.year._2016.day09.ExplosivesInCyberspace;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
@@ -100,6 +101,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2016, 12, 6), SignalsAndNoise.class),
             Map.entry(LocalDate.of(2016, 12, 7), InternetProtocolVersion7.class),
             Map.entry(LocalDate.of(2016, 12, 8), TwoFactorAuthentication.class),
+            Map.entry(LocalDate.of(2016, 12, 9), ExplosivesInCyberspace.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
