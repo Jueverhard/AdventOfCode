@@ -6,6 +6,7 @@ import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
 import calendar.year._2015.day07.SomeAssemblyRequired;
 import calendar.year._2015.day08.Matchsticks;
+import calendar.year._2016.day09.ExplosivesInCyberspace;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
@@ -19,6 +20,7 @@ import calendar.year._2017.day05.AMazeOfTwistyTrampolines;
 import calendar.year._2017.day06.MemoryReallocation;
 import calendar.year._2017.day07.RecursiveCircus;
 import calendar.year._2017.day08.IHeardYouLikeRegisters;
+import calendar.year._2017.day09.StreamProcessing;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
@@ -100,6 +102,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2016, 12, 6), SignalsAndNoise.class),
             Map.entry(LocalDate.of(2016, 12, 7), InternetProtocolVersion7.class),
             Map.entry(LocalDate.of(2016, 12, 8), TwoFactorAuthentication.class),
+            Map.entry(LocalDate.of(2016, 12, 9), ExplosivesInCyberspace.class),
             Map.entry(LocalDate.of(2017, 12, 1), InverseCaptcha.class),
             Map.entry(LocalDate.of(2017, 12, 2), CorruptionChecksum.class),
             Map.entry(LocalDate.of(2017, 12, 3), SpiralMemory.class),
@@ -107,6 +110,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2017, 12, 6), MemoryReallocation.class),
             Map.entry(LocalDate.of(2017, 12, 7), RecursiveCircus.class),
             Map.entry(LocalDate.of(2017, 12, 8), IHeardYouLikeRegisters.class),
+            Map.entry(LocalDate.of(2017, 12, 9), StreamProcessing.class),
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
