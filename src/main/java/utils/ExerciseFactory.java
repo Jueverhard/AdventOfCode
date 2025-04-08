@@ -20,6 +20,7 @@ import calendar.year._2017.day05.AMazeOfTwistyTrampolines;
 import calendar.year._2017.day06.MemoryReallocation;
 import calendar.year._2017.day07.RecursiveCircus;
 import calendar.year._2017.day08.IHeardYouLikeRegisters;
+import calendar.year._2017.day09.StreamProcessing;
 import calendar.year._2018.day01.ChronalCalibration;
 import calendar.year._2018.day02.InventoryManagementSystem;
 import calendar.year._2018.day03.NoMatterHowYouSliceIt;
@@ -109,6 +110,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2017, 12, 6), MemoryReallocation.class),
             Map.entry(LocalDate.of(2017, 12, 7), RecursiveCircus.class),
             Map.entry(LocalDate.of(2017, 12, 8), IHeardYouLikeRegisters.class),
+            Map.entry(LocalDate.of(2017, 12, 9), StreamProcessing.class),
             Map.entry(LocalDate.of(2018, 12, 1), ChronalCalibration.class),
             Map.entry(LocalDate.of(2018, 12, 2), InventoryManagementSystem.class),
             Map.entry(LocalDate.of(2018, 12, 3), NoMatterHowYouSliceIt.class),
