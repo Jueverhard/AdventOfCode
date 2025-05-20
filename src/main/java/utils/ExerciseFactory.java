@@ -27,6 +27,7 @@ import calendar.year._2018.day03.NoMatterHowYouSliceIt;
 import calendar.year._2018.day05.AlchemicalReduction;
 import calendar.year._2018.day06.ChronalCoordinates;
 import calendar.year._2018.day07.TheSumOfItsParts;
+import calendar.year._2020.day09.EncodingError;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
 import calendar.year._2019.day02.ProgramAlarm;
 import calendar.year._2019.day08.SpaceImageFormat;
@@ -124,6 +125,7 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2020, 12, 2), PasswordPhilosophy.class),
             Map.entry(LocalDate.of(2020, 12, 5), BinaryBoarding.class),
             Map.entry(LocalDate.of(2020, 12, 8), HandheldHalting.class),
+            Map.entry(LocalDate.of(2020, 12, 9), EncodingError.class),
             Map.entry(LocalDate.of(2021, 12, 1), SonarSweep.class),
             Map.entry(LocalDate.of(2021, 12, 2), Dive.class),
             Map.entry(LocalDate.of(2021, 12, 3), BinaryDiagnostic.class),
