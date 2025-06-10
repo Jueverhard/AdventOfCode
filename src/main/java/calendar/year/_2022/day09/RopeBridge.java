@@ -17,7 +17,7 @@ public class RopeBridge extends Exercise {
     public String run(Part part, boolean testMode) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
-            Rope rope = Part.PART_1.equals(part) ? new RopePart1() : new RopePart2();
+            Rope rope = new Rope(Part.PART_1 == part ? 2 : 10);
             while ((line = br.readLine()) != null) {
                 String[] instructions = line.split(" ");
                 Direction direction = Direction.valueOf(instructions[0]);
