@@ -42,6 +42,7 @@ public record Sequence(List<Integer> numbers) {
             differencesSubSequence = new Sequence(differences);
             subSequences.add(differencesSubSequence);
         }
+
         return subSequences;
     }
 }
