@@ -16,9 +16,9 @@ class DiskFragmenterTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 6401092019345L),
-                Arguments.of(Part.PART_1, true, 1928)//,
-//                Arguments.of(Part.PART_2, false, 1072),
-//                Arguments.of(Part.PART_2, true, 2)
+                Arguments.of(Part.PART_1, true, 1928),
+                Arguments.of(Part.PART_2, false, 0), // FIXME JEV : `8622841388160` is too high :(
+                Arguments.of(Part.PART_2, true, 2858)
         );
     }
 
