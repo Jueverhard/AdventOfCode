@@ -6,13 +6,13 @@ import calendar.year._2015.day05.DoesntHeHaveInternElvesForThis;
 import calendar.year._2015.day06.ProbablyAFireHazard;
 import calendar.year._2015.day07.SomeAssemblyRequired;
 import calendar.year._2015.day08.Matchsticks;
-import calendar.year._2016.day09.ExplosivesInCyberspace;
 import calendar.year._2016.day01.NoTimeForATaxicab;
 import calendar.year._2016.day02.BathroomSecurity;
 import calendar.year._2016.day04.SecurityThroughObscurity;
 import calendar.year._2016.day06.SignalsAndNoise;
 import calendar.year._2016.day07.InternetProtocolVersion7;
 import calendar.year._2016.day08.TwoFactorAuthentication;
+import calendar.year._2016.day09.ExplosivesInCyberspace;
 import calendar.year._2017.day01.InverseCaptcha;
 import calendar.year._2017.day02.CorruptionChecksum;
 import calendar.year._2017.day03.SpiralMemory;
@@ -27,7 +27,6 @@ import calendar.year._2018.day03.NoMatterHowYouSliceIt;
 import calendar.year._2018.day05.AlchemicalReduction;
 import calendar.year._2018.day06.ChronalCoordinates;
 import calendar.year._2018.day07.TheSumOfItsParts;
-import calendar.year._2020.day09.EncodingError;
 import calendar.year._2019.day01.TheTyrannyOfTheRocketEquation;
 import calendar.year._2019.day02.ProgramAlarm;
 import calendar.year._2019.day08.SpaceImageFormat;
@@ -35,6 +34,7 @@ import calendar.year._2020.day01.ReportRepair;
 import calendar.year._2020.day02.PasswordPhilosophy;
 import calendar.year._2020.day05.BinaryBoarding;
 import calendar.year._2020.day08.HandheldHalting;
+import calendar.year._2020.day09.EncodingError;
 import calendar.year._2021.day01.SonarSweep;
 import calendar.year._2021.day02.Dive;
 import calendar.year._2021.day03.BinaryDiagnostic;
@@ -81,6 +81,7 @@ import calendar.year._2024.day03.MullItOver;
 import calendar.year._2024.day06.GuardGallivant;
 import calendar.year._2024.day07.BridgeRepair;
 import calendar.year._2024.day08.ResonantCollinearity;
+import calendar.year._2024.day09.DiskFragmenter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -171,7 +172,8 @@ public class ExerciseFactory {
             Map.entry(LocalDate.of(2024, 12, 3), MullItOver.class),
             Map.entry(LocalDate.of(2024, 12, 6), GuardGallivant.class),
             Map.entry(LocalDate.of(2024, 12, 7), BridgeRepair.class),
-            Map.entry(LocalDate.of(2024, 12, 8), ResonantCollinearity.class)
+            Map.entry(LocalDate.of(2024, 12, 8), ResonantCollinearity.class),
+            Map.entry(LocalDate.of(2024, 12, 9), DiskFragmenter.class)
     );
 
     /**

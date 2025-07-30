@@ -1,4 +1,4 @@
-package calendar.year._2024.day08;
+package calendar.year._2024.day09;
 
 import calendar.BaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,16 +9,16 @@ import utils.enums.Part;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-class ResonantCollinearityTest extends BaseTest {
+class DiskFragmenterTest extends BaseTest {
 
-    private final ResonantCollinearity exercise = initializeExercise(ResonantCollinearity.class);
+    private final DiskFragmenter exercise = initializeExercise(DiskFragmenter.class);
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
-                Arguments.of(Part.PART_1, false, 280),
-                Arguments.of(Part.PART_1, true, 14)//,
-//                Arguments.of(Part.PART_2, false, 0),
-//                Arguments.of(Part.PART_2, true, 0)
+                Arguments.of(Part.PART_1, false, 6401092019345L),
+                Arguments.of(Part.PART_1, true, 1928),
+                Arguments.of(Part.PART_2, false, 0), // FIXME JEV : `8622841388160` is too high :(
+                Arguments.of(Part.PART_2, true, 2858)
         );
     }
 

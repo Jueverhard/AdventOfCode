@@ -23,6 +23,8 @@ public class MirageMaintenance extends Exercise {
     @Override
     public String run(Part part, boolean testMode) throws IOException {
         Set<Sequence> sequences = new HashSet<>();
+
+        // Data initialization
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
             String line;
             Pattern pattern = Pattern.compile("-?\\d+");
