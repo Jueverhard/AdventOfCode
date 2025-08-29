@@ -16,7 +16,9 @@ class BalanceBotsTest extends BaseTest {
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(Part.PART_1, false, 27),
-                Arguments.of(Part.PART_1, true, 2)
+                Arguments.of(Part.PART_1, true, 2),
+                Arguments.of(Part.PART_2, false, 13727),
+                Arguments.of(Part.PART_2, true, 30)
         );
     }
 

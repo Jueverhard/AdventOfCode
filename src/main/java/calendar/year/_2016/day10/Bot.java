@@ -8,20 +8,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class Bot {
+public class Bot implements Target {
 
     @Getter
     private final int id;
 
     private final List<Integer> values;
 
-    private final int lowBotId;
+    @Getter
+    private final int lowTargetId;
 
-    private final int highBotId;
+    @Getter
+    private final boolean isLowTargetAnOutput;
 
-    private Bot lowBot;
+    @Getter
+    private final int highTargetId;
 
-    private Bot highBot;
+    @Getter
+    private final boolean isHighTargetAnOutput;
+
+    private Target lowTarget;
+
+    private Target highTarget;
 
     private static List<Integer> lookedUpValues;
 
@@ -29,26 +37,25 @@ public class Bot {
         Bot.lookedUpValues = lookedUpValues;
     }
 
-    public Bot(int id, int lowBotId, int highBotId) {
+    public Bot(int id, int lowTargetId, int highTargetId, boolean isLowTargetAnOutput, boolean isHighTargetAnOutput) {
         this.id = id;
         this.values = new ArrayList<>();
-        this.lowBotId = lowBotId;
-        this.highBotId = highBotId;
+        this.lowTargetId = lowTargetId;
+        this.highTargetId = highTargetId;
+        this.isLowTargetAnOutput = isLowTargetAnOutput;
+        this.isHighTargetAnOutput = isHighTargetAnOutput;
     }
 
-    public void initialize(Map<Integer, Bot> botById) {
-        if (null != this.lowBot || null != this.highBot) {
+    public void initialize(Map<Integer, Bot> botById, Map<Integer, Output> outputById) {
+        if (null != this.lowTarget || null != this.highTarget) {
             throw new IllegalStateException("Bot already initialized");
         }
 
-        this.lowBot = botById.get(lowBotId);
-        this.highBot = botById.get(highBotId);
+        this.lowTarget = isLowTargetAnOutput ? outputById.get(lowTargetId) : botById.get(lowTargetId);
+        this.highTarget = isHighTargetAnOutput ? outputById.get(highTargetId) : botById.get(highTargetId);
     }
 
-    /**
-     * @param value Value to add to the bot.
-     * @return The identifier of the looked for bot, if found.
-     */
+    @Override
     public Optional<Integer> addValue(int value) {
         values.add(value);
 
@@ -56,17 +63,17 @@ public class Bot {
             return Optional.empty();
         }
 
+        List<Integer> foundBotIds = new ArrayList<>();
+
         // Checks whether the researched bot was found
         if (values.containsAll(lookedUpValues)) {
-            return Optional.of(id);
+            foundBotIds.add(id);
         }
+        lowTarget.addValue(Collections.min(values))
+                .ifPresent(foundBotIds::add);
+        highTarget.addValue(Collections.max(values))
+                .ifPresent(foundBotIds::add);
 
-        Optional<Integer> optFoundBotId = lowBot.addValue(Collections.min(values));
-        if (optFoundBotId.isPresent()) {
-            return optFoundBotId;
-        }
-
-        optFoundBotId = highBot.addValue(Collections.max(values));
-        return optFoundBotId;
+        return foundBotIds.stream().findFirst();
     }
 }

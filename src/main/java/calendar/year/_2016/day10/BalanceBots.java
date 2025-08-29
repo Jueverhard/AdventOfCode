@@ -11,15 +11,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BalanceBots extends Exercise {
 
     public BalanceBots(LocalDate date) {
         super(date);
+    }
+
+    record BotValuation(int botId, int value) {
     }
 
     @Override
@@ -28,9 +34,6 @@ public class BalanceBots extends Exercise {
         Bot.setUpLookedUpValues(testMode ? List.of(2, 5) : List.of(17, 61));
         List<Bot> bots = new ArrayList<>();
 
-//        record ParsedBot(int id, int lowTargetId, String lowTargetNature, int highTargetId, String highTargetNature) {}
-        record BotValuation(int botId, int value) {}
-//        List<ParsedBot> parsedBots = new ArrayList<>();
         List<BotValuation> botValuations = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(this.getInputPath(testMode)))) {
@@ -49,18 +52,49 @@ public class BalanceBots extends Exercise {
                     bots.add(new Bot(
                             Integer.parseInt(botGivingMatch.group("givingBotId")),
                             Integer.parseInt(botGivingMatch.group("lowTargetId")),
-                            Integer.parseInt(botGivingMatch.group("highTargetId"))
+                            Integer.parseInt(botGivingMatch.group("highTargetId")),
+                            "output".equals(botGivingMatch.group("lowTargetNature")),
+                            "output".equals(botGivingMatch.group("highTargetNature"))
                     ));
                 } else {
                     throw new IllegalArgumentException();
                 }
             }
         }
-        Map<Integer, Bot> botById = bots.stream()
-                .collect(Collectors.toMap(Bot::getId, bot -> bot));
-        bots.forEach(bot -> bot.initialize(botById));
 
-        // Runs bots
+        Map<Integer, Bot> botById = bots.stream()
+                .collect(Collectors.toMap(Bot::getId, Function.identity()));
+        Map<Integer, Output> outputById = bots.stream()
+                .filter(bot -> bot.isHighTargetAnOutput() || bot.isLowTargetAnOutput())
+                .flatMap(bot -> Stream.of(
+                                bot.isLowTargetAnOutput() ? new Output(bot.getLowTargetId()) : null,
+                                bot.isHighTargetAnOutput() ? new Output(bot.getHighTargetId()) : null
+                        ).filter(Objects::nonNull)
+                )
+                .collect(Collectors.toMap(Output::getId, Function.identity()));
+        bots.forEach(bot -> bot.initialize(botById, outputById));
+
+        int result;
+        if (Part.PART_1 == part) {
+            result = findSpecificBotId(botById, botValuations);
+        } else {
+            // Distribute every values
+            botValuations.forEach(botValuation -> botById.get(botValuation.botId())
+                    .addValue(botValuation.value())
+            );
+
+            result = outputById.get(0).getValue() * outputById.get(1).getValue() * outputById.get(2).getValue();
+        }
+
+        return print(result);
+    }
+
+    /**
+     * @param botById       Every bot, indexed by its identifier.
+     * @param botValuations The values to give to the bots.
+     * @return The identifier of the bot that compared the two looked up values.
+     */
+    private int findSpecificBotId(Map<Integer, Bot> botById, List<BotValuation> botValuations) {
         Optional<Integer> optFoundBotId = Optional.empty();
         Iterator<BotValuation> botValuationsIterator = botValuations.iterator();
         while (optFoundBotId.isEmpty() && botValuationsIterator.hasNext()) {
@@ -70,8 +104,6 @@ public class BalanceBots extends Exercise {
             optFoundBotId = bot.addValue(botValuation.value());
         }
 
-        return optFoundBotId
-                .map(this::print)
-                .orElseThrow();
+        return optFoundBotId.orElseThrow();
     }
 }
